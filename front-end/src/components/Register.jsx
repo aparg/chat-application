@@ -14,10 +14,11 @@ export const Register = () => {
   const confirmPwdRef = useRef(null);
 
   const [name, setName] = useState("");
+  const [nameFocus, setNameFocus] = useState(false);
   const [pwd, setPwd] = useState("");
   const [pwdFocus, setPwdFocus] = useState(false);
   const [confirmPwd, setConfirmPwd] = useState("");
-  const [confirmPwdFocus, setConfirmPwdFocus] = useState("");
+  const [confirmPwdFocus, setConfirmPwdFocus] = useState(false);
   const [validName, setValidName] = useState(false);
   const [validPwd, setValidPwd] = useState(false);
   const [pwdMatch, setPwdMatch] = useState(false);
@@ -61,16 +62,24 @@ export const Register = () => {
           aria-invalid={validName ? false : true}
           aria-describedby="uidnote"
           onChange={(e) => setName(e.target.value)}
+          onFocus={() => setNameFocus(true)}
+          onBlur={() => setNameFocus(false)}
           ref={nameRef}
+          required
         ></input>
         {/* /^[0-9A-Za-z]{6,16}$/ */}
-        <p id="uidnote" className={!validName ? "showInstructions" : "hide"}>
+        <p
+          id="uidnote"
+          className={
+            !validName && name && nameFocus ? "showInstructions" : "hide"
+          }
+        >
           The username should contain more than 5 letters and less than 17
           letters
         </p>
         <label className="formLabel" htmlFor="pwd">
           Password: &nbsp;
-          {validPwd ? (
+          {validPwd && pwd ? (
             <FontAwesomeIcon
               icon={faCircleCheck}
               style={{ color: "#178a00" }}
@@ -93,6 +102,7 @@ export const Register = () => {
           onFocus={() => setPwdFocus(true)}
           onBlur={() => setPwdFocus(false)}
           onChange={(e) => setPwd(e.target.value)}
+          required
         ></input>
         <p
           id="pwdnote"
@@ -103,7 +113,7 @@ export const Register = () => {
         </p>
         <label className="formLabel" htmlFor="confirmPwd">
           Confirm Password: &nbsp;
-          {pwdMatch ? (
+          {confirmPwd && pwdMatch ? (
             <FontAwesomeIcon
               icon={faCircleCheck}
               style={{ color: "#178a00" }}
@@ -123,8 +133,14 @@ export const Register = () => {
           className="inputText"
           aria-describedby="confirmNote"
           onChange={(e) => setConfirmPwd(e.target.value)}
+          onFocus={() => setConfirmPwdFocus(true)}
+          onBlur={() => setConfirmPwdFocus(false)}
+          required
         ></input>
-        <p id="confirmNote" className={!pwdMatch ? "showInstructions" : "hide"}>
+        <p
+          id="confirmNote"
+          className={!pwdMatch && confirmPwdFocus ? "showInstructions" : "hide"}
+        >
           The password does not match
         </p>
         <button className="submitBtn">Submit</button>
