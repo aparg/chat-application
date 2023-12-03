@@ -9,9 +9,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const handlleRefreshToken = (req, res) => {
-  console.log("AYO");
   const cookies = req.cookies;
-  console.log(req.cookies);
   if (!cookies?.jwt) return res.sendStatus(401);
   //check if received user token is valid for any user or not
   const refreshToken = cookies.jwt;

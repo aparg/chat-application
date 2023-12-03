@@ -4,6 +4,7 @@ const app = express();
 const register = require("./routes/register");
 const auth = require("./routes/auth");
 const refreshToken = require("./routes/refreshToken");
+const logout = require("./routes/logout");
 //for jwt verification
 const { verifyToken } = require("./middlewares/jwtVerify");
 const cookieParser = require("cookie-parser");
@@ -22,7 +23,9 @@ app.use("/register", register);
 //login route
 app.use("/auth", auth);
 app.use("/refresh", refreshToken);
+app.use("/logout", logout);
 app.use(verifyToken);
+//all the protected routes should be placed here...
 app.get("/protected", (req, res) => res.send("Secret"));
 
 //welcome route
