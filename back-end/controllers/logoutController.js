@@ -1,37 +1,46 @@
-const usersDB = {
-  users: require("../models/users.json"),
-  setUsers: function (data) {
-    this.users = data;
-  },
-};
+const Users = require("../models/Users");
+/*For file based routing*/
+// const usersDB = {
+//   users: require("../models/users.json"),
+//   setUsers: function (data) {
+//     this.users = data;
+//   },
+// };
+// const fsPromises = require("fs").promises;
 const path = require("path");
-const fsPromises = require("fs").promises;
-const userLogout = (req, res) => {
+const userLogout = async (req, res) => {
+  console.log(req);
   const cookies = req.cookies;
   console.log(cookies);
   if (!cookies?.jwt) return res.sendStatus(203); //successful request cause, the user wasnt logged in in the first place
   const refreshToken = cookies.jwt;
-  const loggedOutUserFound = usersDB.users.find(
-    (user) => user?.refreshToken === refreshToken
-  );
-  if (loggedOutUserFound) {
-    const otherUsers = usersDB.users.filter(
-      (user) => user?.refreshToken !== refreshToken
-    );
-    const loggedOutUser = {
-      username: loggedOutUserFound.username,
-      password: loggedOutUserFound.password,
-    };
-    usersDB.setUsers([...otherUsers, loggedOutUser]);
-    fsPromises.writeFile(
-      path.join(__dirname, "..", "models", "users.json"),
-      JSON.stringify(usersDB.users)
-    );
-    //clear the jwt cookie so it cant refresh
-    res.clearCookie("jwt", { httpOnly: true });
-    return res.sendStatus(204);
-  }
-  res.clearCookie("jwt", { httpOnly: true });
+  const filter = { refreshToken: refreshToken };
+  const update = { refreshToken: "" };
+  const loggedOutUser = await Users.findOneAndUpdate(filter, update, {
+    new: true,
+  }).exec();
+  console.log(loggedOutUser);
+  // usersDB.setUsers([...otherUsers, loggedOutUser]);
+  // const loggedOutUserFound = usersDB.users.find(
+  //   (user) => user?.refreshToken === refreshToken
+  // );
+  // if (loggedOutUserFound) {
+  //   const otherUsers = usersDB.users.filter(
+  //     (user) => user?.refreshToken !== refreshToken
+  //   );
+  //   const loggedOutUser = {
+  //     username: loggedOutUserFound.username,
+  //     password: loggedOutUserFound.password,
+  //   };
+  // await fsPromises.writeFile(
+  //   path.join(__dirname, "..", "models", "users.json"),
+  //   JSON.stringify(usersDB.users)
+  // );
+  //clear the jwt cookie so it cant refresh
+  //   res.clearCookie("jwt", { httpOnly: true, sameSite: "none", secure: true });
+  //   return res.sendStatus(204);
+  // }
+  res.clearCookie("jwt", { httpOnly: true, sameSite: "none", secure: true });
   return res.sendStatus(204);
 };
 
