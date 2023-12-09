@@ -23,7 +23,7 @@ const checkUser = async (req, res) => {
     return res.status(401).json({ message: "User doesn't exist" });
   const comparision = await bcrypt.compare(pwd, userFound.password); //check password
   if (comparision) {
-    const roleValues = Object.values(userFound.roles); //the value for role(eg. 100 for user)
+    const roleValues = Object.values(userFound.roles).filter(Boolean); //the value for role(eg. 100 for user)
     const accessToken = jwt.sign(
       {
         userInfo: {
@@ -53,13 +53,14 @@ const checkUser = async (req, res) => {
     //   path.join(__dirname, "..", "models", "users.json"),
     //   JSON.stringify(usersDB.users)
     // );
+
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
       sameSite: "none",
       secure: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
-    return res.json({ accessToken });
+    return res.json({ accessToken, roles: roleValues });
     // return res.status(200).json({ message: "Valid username and password" });
   }
   return res.status(201).json({ message: "Password doesn't match" });
