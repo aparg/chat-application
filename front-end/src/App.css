@@ -1,15 +1,15 @@
-body {
+/* body {
   background-image: linear-gradient(
     to bottom right,
     rgb(24, 24, 24),
     rgb(75, 75, 75)
   );
-}
-#root {
+} */
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-}
+} */
 
 .formDiv {
   background-color: rgb(20, 16, 62);
