@@ -5,7 +5,7 @@ import {
   faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "../api/axios";
-import peopleImg from "../assets/images/login-page.png";
+import peopleImg from "../assets/images/register-page.png";
 import { Link } from "react-router-dom";
 
 export const Register = () => {
@@ -81,7 +81,10 @@ export const Register = () => {
     <section className="text-3xl font-bold">Success</section>
   ) : (
     <div className="flex lg:flex-row w-9/12 flex-col-reverse bg-light-cream">
-      <img src={peopleImg} className="flex-auto lg:w-80 w-100"></img>
+      <div className="relative flex-auto lg:w-80 w-100">
+        <img src={peopleImg} className="w-full h-full "></img>
+        <div className="absolute z-10 inset-0 w-full h-full bg-gradient-to-b from-dark-img-gradient to-light-img-gradient"></div>
+      </div>
       <section className="flex-auto lg:w-20 flex flex-col items-center justify-center w-100 mx-5">
         <h1 className="text-light-blue font-black text-3xl mt-2">Sign Up</h1>
         <h2 className="text-black mb-5">
@@ -99,7 +102,7 @@ export const Register = () => {
           {errMsg}
         </section>
         <form
-          className="w-4/5 flex flex-col items-start md:m-0 m-5"
+          className="w-4/5 flex flex-col items-start m-5"
           onSubmit={handleSubmit}
         >
           <label
@@ -230,7 +233,7 @@ export const Register = () => {
           >
             The password does not match
           </p>
-          <button className="w-4/5 bg-gradient-to-r from-dark-blue to-light-blue mt-2 self-center">
+          <button className="w-4/5 bg-gradient-to-r from-dark-blue to-light-blue mt-2 self-center border-none">
             {spinner && (
               <svg
                 className="animate-spin h-5 w-5 mr-3 text-dark-blue inline fill-white"
@@ -252,8 +255,11 @@ export const Register = () => {
             <span className="inline text-brown-text">
               Already have an account?
             </span>
-            <span className="inline text-light-blue hover:cursor-pointer">
-              &nbsp;<Link to="/login">Login</Link>
+            <span className="inline text-light-blue hover:cursor-pointer ">
+              &nbsp;
+              <Link to="/login" className="text-current">
+                Login
+              </Link>
             </span>
           </section>
         </form>

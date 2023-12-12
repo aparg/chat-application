@@ -10,6 +10,8 @@ export default {
         "dark-cream": "#F8E7D3",
         "dark-blue": "rgba(58, 154, 177, 0.90)",
         "brown-text": "#6D6D6D",
+        "dark-img-gradient": "rgba(26, 8, 8, 0.20)",
+        "light-img-gradient": "rgba(213, 201, 182, 0.80)",
       },
       spacing: {
         999: "999px",

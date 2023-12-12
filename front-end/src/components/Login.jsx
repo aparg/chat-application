@@ -1,12 +1,16 @@
 import { useRef, useState, useEffect, useContext } from "react";
 import axios from "../api/axios";
 import AuthContext from "../context/AuthContext";
+import peopleImg from "../assets/images/login-page.png";
+import { Link } from "react-router-dom";
 const Login = () => {
   const { setAuth } = useContext(AuthContext);
   const nameRef = useRef(null);
   const errRef = useRef(null);
   const [name, setName] = useState("");
   const [pwd, setPwd] = useState("");
+  const [nameFocus, setNameFocus] = useState("");
+  const [pwdFocus, setPwdFocus] = useState("");
   const [success, setSuccess] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [spinner, setSpinner] = useState(false);
@@ -17,6 +21,8 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrMsg(null);
+    setSpinner(true);
     try {
       const response = await axios.post(
         LOGIN_URL,
@@ -60,7 +66,13 @@ const Login = () => {
     <section className="text-3xl font-bold">Success</section>
   ) : (
     <section className="flex lg:flex-row w-9/12 flex-col-reverse bg-light-cream">
-      <img src={peopleImg} className="flex-auto lg:w-80 w-100"></img>
+      <div className="relative flex-auto lg:w-80 w-100">
+        <img src={peopleImg} className="w-full h-full "></img>
+        <h1 className="absolute left-1/2 top-10 -translate-x-1/2 z-10 font-bold text-md text-center m-0">
+          Welcome Back
+        </h1>
+        <div className="absolute z-5 inset-0 w-full h-full bg-gradient-to-b from-dark-img-gradient to-light-img-gradient"></div>
+      </div>{" "}
       <section className="flex-auto lg:w-20 flex flex-col items-center justify-center w-100 mx-5">
         <h1 className="text-light-blue font-black text-3xl mt-2">Login</h1>
         <section
@@ -75,7 +87,7 @@ const Login = () => {
           {errMsg}
         </section>
         <form
-          className="w-4/5 flex flex-col items-start md:m-0 m-5"
+          className="w-4/5 flex flex-col items-start m-5"
           onSubmit={handleSubmit}
         >
           <label
@@ -93,6 +105,8 @@ const Login = () => {
             autoComplete="true"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            onFocus={() => setNameFocus(true)}
+            onBlur={() => setNameFocus(false)}
             ref={nameRef}
             required
           ></input>
@@ -106,10 +120,12 @@ const Login = () => {
             type="password"
             id="pwd"
             className={`p-1 w-full text-black my-2 ${
-              nameFocus ? "bg-dark-cream" : "bg-white"
+              pwdFocus ? "bg-dark-cream" : "bg-white"
             }`}
             value={pwd}
             onChange={(e) => setPwd(e.target.value)}
+            onFocus={() => setPwdFocus(true)}
+            onBlur={() => setPwdFocus(false)}
             required
           ></input>
           <button className="w-4/5 bg-gradient-to-r from-dark-blue to-light-blue mt-2 self-center">
@@ -130,6 +146,17 @@ const Login = () => {
             )}{" "}
             Submit
           </button>
+          <section className="flex w-full justify-center mt-3">
+            <span className="inline text-brown-text">
+              Don't have an account?
+            </span>
+            <span className="inline text-light-blue hover:cursor-pointer visited:text-current">
+              &nbsp;
+              <Link to="/register" className="text-current">
+                Register Here
+              </Link>
+            </span>
+          </section>
         </form>
       </section>
     </section>
