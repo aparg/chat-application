@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "../api/axios";
 import peopleImg from "../assets/images/register-page.png";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 export const Register = () => {
   const NAME_REGEX = /^[0-9A-Za-z]{6,16}$/;
@@ -78,7 +78,7 @@ export const Register = () => {
     }
   };
   return success ? (
-    <section className="text-3xl font-bold">Success</section>
+    <Navigate to="/login" />
   ) : (
     <div className="flex lg:flex-row w-9/12 flex-col-reverse bg-light-cream">
       <div className="relative flex-auto lg:w-80 w-100">

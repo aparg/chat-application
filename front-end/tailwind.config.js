@@ -12,9 +12,16 @@ export default {
         "brown-text": "#6D6D6D",
         "dark-img-gradient": "rgba(26, 8, 8, 0.20)",
         "light-img-gradient": "rgba(213, 201, 182, 0.80)",
+        "dark-brown": "#A27E53",
+        gray: "rgba(0, 0, 0, 0.05)",
+        "dark-gray": "#959595",
       },
       spacing: {
         999: "999px",
+      },
+      height: {
+        "1/10": "10%",
+        "1/20": "5%",
       },
       keyframes: {
         pop: {
@@ -25,7 +32,9 @@ export default {
       animation: {
         pop: "pop 0.5s ease-in-out",
       },
-      fontFamily: {},
+      borderRadius: {
+        "4xl": "5rem",
+      },
     },
   },
   plugins: [],

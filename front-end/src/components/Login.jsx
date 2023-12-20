@@ -3,6 +3,7 @@ import axios from "../api/axios";
 import AuthContext from "../context/AuthContext";
 import peopleImg from "../assets/images/login-page.png";
 import { Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 const Login = () => {
   const { setAuth } = useContext(AuthContext);
   const nameRef = useRef(null);
@@ -34,11 +35,12 @@ const Login = () => {
       setSpinner(false);
       console.log(response?.data?.accessToken);
       const roles = response?.data?.roles;
+      const accessToken = response?.data?.accessToken;
       console.log(roles);
+      setAuth({ name, pwd, roles, accessToken });
       setName(""); //clear the form
       setPwd("");
       setSuccess(true);
-      setAuth({ user, pwd, roles, accessToken });
     } catch (err) {
       setSpinner(false);
       if (!err?.response) {
@@ -63,7 +65,7 @@ const Login = () => {
   // }, [pwd, confirmPwd]);
 
   return success ? (
-    <section className="text-3xl font-bold">Success</section>
+    <Navigate to="/message" />
   ) : (
     <section className="flex lg:flex-row w-9/12 flex-col-reverse bg-light-cream">
       <div className="relative flex-auto lg:w-80 w-100">
