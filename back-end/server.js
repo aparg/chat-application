@@ -1,6 +1,7 @@
 require("dotenv").config();
 const fsPromises = require("fs").promises;
 const express = require("express");
+const { createServer } = require("http");
 const app = express();
 const register = require("./routes/register");
 const auth = require("./routes/auth");
@@ -15,7 +16,16 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const dbConfig = require("./config/dbconfig");
 const corsOptions = require("./config/corsOptions");
+const allowedOrigins = require("./config/allowedOrigins");
 const PORT = process.env.PORT | 3500;
+//for socket.io
+const { Server } = require("socket.io");
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: allowedOrigins,
+  },
+});
 
 dbConfig();
 // built-in middleware to handle urlencoded form data
@@ -50,5 +60,11 @@ app.get("/protected", (req, res) => res.send("Secret"));
 
 mongoose.connection.once("open", () => {
   console.log("MONGODB connected");
-  app.listen(PORT, () => {});
+  io.on("connection", (socket) => {
+    socket.on("chat message", (msg) => {
+      console.log(msg);
+    });
+  });
+  // app.listen(PORT, () => {});
+  httpServer.listen(PORT);
 });
