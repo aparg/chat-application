@@ -7,6 +7,8 @@ const register = require("./routes/register");
 const auth = require("./routes/auth");
 const refreshToken = require("./routes/refreshToken");
 const logout = require("./routes/logout");
+const message = require("./routes/message");
+const conversation = require("./routes/conversation");
 //for jwt verification
 const { verifyToken } = require("./middlewares/jwtVerify");
 const rolesVerify = require("./middlewares/rolesVerify");
@@ -17,7 +19,7 @@ const mongoose = require("mongoose");
 const dbConfig = require("./config/dbconfig");
 const corsOptions = require("./config/corsOptions");
 const allowedOrigins = require("./config/allowedOrigins");
-const PORT = process.env.PORT | 3500;
+const PORT = process.env.PORT || 3500;
 //for socket.io
 const { Server } = require("socket.io");
 const httpServer = createServer(app);
@@ -54,12 +56,13 @@ app.use("/auth", auth);
 app.use("/refresh", refreshToken);
 app.use("/logout", logout);
 app.use(verifyToken);
-app.use(rolesVerify(ROLES.Admin));
-//all the protected routes should be placed here...
+app.use("/message", message);
+app.use("/conversation", conversation);
 app.get("/protected", (req, res) => res.send("Secret"));
+// app.use(rolesVerify(ROLES.Admin));
+//all the protected routes should be placed here...
 
 mongoose.connection.once("open", () => {
-  console.log("MONGODB connected");
   io.on("connection", (socket) => {
     socket.on("chat message", (msg) => {
       console.log(msg);
