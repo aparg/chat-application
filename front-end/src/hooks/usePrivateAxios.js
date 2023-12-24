@@ -1,18 +1,21 @@
 import { useEffect } from "react";
-import axios, { axiosPrivate } from "../api/axios";
-import getNewToken from "./useRefreshToken";
+import { axiosPrivate } from "../api/axios";
+import useRefreshToken from "./useRefreshToken";
 import useAuth from "./useAuth";
 
 const usePrivateAxios = () => {
-  const newToken = getNewToken();
+  const getNewToken = useRefreshToken();
   const { auth } = useAuth();
   useEffect(() => {
     const requestInterceptor = axiosPrivate.interceptors.request.use(
       (config) => {
-        //if authorization header is not set
+        //if authorization header is not set, set token in header of request
         if (!config.headers.authorization) {
+          console.log(auth);
           config.headers.authorization = `Bearer ${auth?.accessToken}`;
+          console.log(config.headers.authorization);
         }
+        return config;
       }
     );
 
@@ -34,10 +37,10 @@ const usePrivateAxios = () => {
     );
 
     return () => {
-      axios.interceptors.request.eject(requestInterceptor);
-      axios.interceptors.response.eject(responseInterceptor);
+      axiosPrivate.interceptors.request.eject(requestInterceptor);
+      axiosPrivate.interceptors.response.eject(responseInterceptor);
     };
-  }, [newToken, auth]);
+  }, [getNewToken, auth]);
 
   return axiosPrivate;
 };

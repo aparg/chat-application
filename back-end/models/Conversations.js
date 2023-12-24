@@ -8,7 +8,6 @@ const conversationsSchema = new Schema({
       required: true,
     },
   ],
-  messages: {},
 });
 
 module.exports = mongoose.model("Conversation", conversationsSchema);

@@ -1,13 +1,16 @@
-import React from "react";
+//post request to refresh route and set auth as new access token received
 import axios from "../api/axios";
 import useAuth from "./useAuth";
-const getNewToken = async () => {
+const useRefreshToken = () => {
   const { setAuth } = useAuth();
-  const response = await axios.post("/refresh", null, {
-    withCredentials: true,
-  });
-  setAuth((prev) => ({ ...prev, accessToken: response.data.accessToken }));
-  return accessToken;
+  const getNewToken = async () => {
+    const response = await axios.post("/refresh", null, {
+      withCredentials: true,
+    });
+    setAuth((prev) => ({ ...prev, accessToken: response.data.accessToken }));
+    return accessToken;
+  };
+  return getNewToken;
 };
 
-export default getNewToken;
+export default useRefreshToken;

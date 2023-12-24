@@ -56,8 +56,8 @@ app.use("/auth", auth);
 app.use("/refresh", refreshToken);
 app.use("/logout", logout);
 app.use(verifyToken);
-app.use("/message", message);
 app.use("/conversation", conversation);
+// app.use("/message", message);
 app.get("/protected", (req, res) => res.send("Secret"));
 // app.use(rolesVerify(ROLES.Admin));
 //all the protected routes should be placed here...
