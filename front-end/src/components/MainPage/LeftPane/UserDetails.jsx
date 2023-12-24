@@ -3,6 +3,8 @@ import profileImg from "../../../assets/images/profile.jpg";
 import { v4 as uuidv4 } from "uuid";
 import useAuth from "../../../hooks/useAuth";
 import SearchBar from "./SearchBar";
+import { useEffect } from "react";
+import useReceiverName from "../../../hooks/useReceiverName";
 const UserDetails = () => {
   const sampleUsers = [
     "Achit Gaihre",
@@ -11,6 +13,10 @@ const UserDetails = () => {
     "Ayushma Paude",
   ];
   const { auth } = useAuth();
+  const { setReceiverName } = useReceiverName();
+  useEffect(() => {
+    setReceiverName(sampleUsers[0]);
+  }, []);
   return (
     <section className="flex flex-col w-3/12 h-full ">
       <section className="flex flex-row my-5 items-center">

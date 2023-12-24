@@ -1,13 +1,21 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import profileImg from "../../../assets/images/profile.jpg";
 import useReceiverName from "../../../hooks/useReceiverName";
+import usePrivateAxios from "../../../hooks/usePrivateAxios";
 const UserCard = ({ name }) => {
-  const [clicked, setClicked] = useState(false);
+  const axiosPrivate = usePrivateAxios();
+  const CONVERSATION_URL = "/conversation";
   const { setReceiverName, receiverName } = useReceiverName();
+  const [messages, setMessages] = useState([]);
 
-  const handleClick = () => {
+  const handleClick = async () => {
     setReceiverName(name);
-    setClicked(true);
+    const response = await axiosPrivate.post(
+      CONVERSATION_URL,
+      JSON.stringify({ receiverName })
+    );
+    console.log(response?.data?.conversationId);
+    // setMessages(messages);
   };
   return (
     <div
