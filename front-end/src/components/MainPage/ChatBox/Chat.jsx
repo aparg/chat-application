@@ -1,6 +1,7 @@
 import ChatTitle from "./ChatTitle";
 import ChatTextArea from "./ChatTextArea";
 import useReceiverName from "../../../hooks/useReceiverName";
+import { ConversationProvider } from "../../../context/ConversationContext";
 const Chat = () => {
   const { receiverName } = useReceiverName();
   return (

@@ -2,11 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import profileImg from "../../../assets/images/profile.jpg";
 import useReceiverName from "../../../hooks/useReceiverName";
 import usePrivateAxios from "../../../hooks/usePrivateAxios";
+import useConversationId from "../../../hooks/useConversationId";
 const UserCard = ({ name }) => {
   const axiosPrivate = usePrivateAxios();
   const CONVERSATION_URL = "/conversation";
   const { setReceiverName, receiverName } = useReceiverName();
   const [messages, setMessages] = useState([]);
+  const { setConversationId } = useConversationId();
 
   const handleClick = async () => {
     setReceiverName(name);
@@ -14,7 +16,7 @@ const UserCard = ({ name }) => {
       CONVERSATION_URL,
       JSON.stringify({ receiverName })
     );
-    console.log(response?.data?.conversationId);
+    setConversationId(response?.data?.conversationId);
     // setMessages(messages);
   };
   return (

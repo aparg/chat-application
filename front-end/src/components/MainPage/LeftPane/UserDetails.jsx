@@ -8,7 +8,7 @@ import useReceiverName from "../../../hooks/useReceiverName";
 const UserDetails = () => {
   const sampleUsers = [
     "Achit Gaihre",
-    "Ram Rijju",
+    "ramrijal",
     "Pajin Maharjan",
     "Ayushma Paude",
   ];

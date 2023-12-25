@@ -11,9 +11,7 @@ const usePrivateAxios = () => {
       (config) => {
         //if authorization header is not set, set token in header of request
         if (!config.headers.authorization) {
-          console.log(auth);
           config.headers.authorization = `Bearer ${auth?.accessToken}`;
-          console.log(config.headers.authorization);
         }
         return config;
       }
