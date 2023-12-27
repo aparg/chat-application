@@ -9,9 +9,7 @@ const Users = require("../models/Users");
 // const fsPromises = require("fs").promises;
 const path = require("path");
 const userLogout = async (req, res) => {
-  console.log(req);
   const cookies = req.cookies;
-  console.log(cookies);
   if (!cookies?.jwt) return res.sendStatus(203); //successful request cause, the user wasnt logged in in the first place
   const refreshToken = cookies.jwt;
   const filter = { refreshToken: refreshToken };
@@ -19,7 +17,6 @@ const userLogout = async (req, res) => {
   const loggedOutUser = await Users.findOneAndUpdate(filter, update, {
     new: true,
   }).exec();
-  console.log(loggedOutUser);
   // usersDB.setUsers([...otherUsers, loggedOutUser]);
   // const loggedOutUserFound = usersDB.users.find(
   //   (user) => user?.refreshToken === refreshToken

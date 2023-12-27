@@ -30,13 +30,12 @@ const Login = () => {
         JSON.stringify({ name, pwd }),
         {
           headers: { "Content-Type": "application/json" },
+          withCredentials: true,
         }
       );
       setSpinner(false);
-      console.log(response?.data?.accessToken);
       const roles = response?.data?.roles;
       const accessToken = response?.data?.accessToken;
-      console.log(roles);
       setAuth({ name, pwd, roles, accessToken });
       setName(""); //clear the form
       setPwd("");

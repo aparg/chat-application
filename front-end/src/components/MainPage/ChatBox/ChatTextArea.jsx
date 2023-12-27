@@ -1,15 +1,17 @@
 import { useRef, useState } from "react";
 import sendBtn from "../../../assets/images/icons/send.png";
 import { socket } from "../../../socket/socket";
-import useReceiverName from "../../../hooks/useReceiverName";
 import useConversationId from "../../../hooks/useConversationId";
+import useAuth from "../../../hooks/useAuth";
 function ChatTextArea() {
   const { conversationId } = useConversationId();
+  const { auth } = useAuth();
   const [textData, setTextData] = useState("");
   const sendText = () => {
     const data = {
       conversationId,
       content: textData,
+      sender: auth.name,
     };
     console.log(data);
     socket.emit("chat message", data);

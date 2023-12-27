@@ -35,7 +35,6 @@ const addNewUser = async (req, res) => {
     //   JSON.stringify(usersDB.users)
     // );
 
-    console.log(result);
     return res.status(201).json({ message: "User Registered!" });
   } catch (err) {
     return res.status(500).json({ message: err.message });

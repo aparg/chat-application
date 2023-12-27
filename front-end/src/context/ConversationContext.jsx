@@ -3,7 +3,6 @@ const ConversationContext = createContext({});
 
 export const ConversationProvider = ({ children }) => {
   const [conversationId, setConversationId] = useState();
-  console.log(conversationId);
   return (
     <ConversationContext.Provider value={{ conversationId, setConversationId }}>
       {children}

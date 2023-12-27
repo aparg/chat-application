@@ -35,6 +35,9 @@ export default {
       borderRadius: {
         "4xl": "5rem",
       },
+      maxWidth: {
+        60: "60%",
+      },
     },
   },
   plugins: [],

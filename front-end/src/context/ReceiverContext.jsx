@@ -4,7 +4,6 @@ const ReceiverContext = createContext({});
 
 export const ReceiverProvider = ({ children }) => {
   const [receiverName, setReceiverName] = useState("");
-  console.log(receiverName);
   return (
     <ReceiverContext.Provider value={{ receiverName, setReceiverName }}>
       {children}

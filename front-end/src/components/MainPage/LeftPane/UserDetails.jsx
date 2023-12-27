@@ -6,12 +6,7 @@ import SearchBar from "./SearchBar";
 import { useEffect } from "react";
 import useReceiverName from "../../../hooks/useReceiverName";
 const UserDetails = () => {
-  const sampleUsers = [
-    "Achit Gaihre",
-    "ramrijal",
-    "Pajin Maharjan",
-    "Ayushma Paude",
-  ];
+  const sampleUsers = ["Achit Gaihre", "ramrijal", "apar1", "apar"];
   const { auth } = useAuth();
   const { setReceiverName } = useReceiverName();
   useEffect(() => {

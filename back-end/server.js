@@ -22,6 +22,8 @@ const allowedOrigins = require("./config/allowedOrigins");
 const PORT = process.env.PORT || 3500;
 //for socket.io
 const { Server } = require("socket.io");
+const sendMessageSocket = require("./socket/sendMessageSocket");
+const getMessageSocket = require("./socket/getMessageSocket");
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
@@ -65,10 +67,14 @@ app.get("/protected", (req, res) => res.send("Secret"));
 
 mongoose.connection.once("open", () => {
   io.on("connection", (socket) => {
-    socket.on("chat message", (msg) => {
-      console.log(msg);
+    socket.on("join room", ({ conversationId }) => {
+      console.log("joining" + conversationId);
+      socket.join(conversationId);
     });
+    sendMessageSocket(socket, io);
+    getMessageSocket(socket, io);
   });
-  // app.listen(PORT, () => {});
+
+  // app.listen(PORT, () =>  {});
   httpServer.listen(PORT);
 });

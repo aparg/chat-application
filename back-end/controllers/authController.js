@@ -18,7 +18,6 @@ const checkUser = async (req, res) => {
   }
   // const userFound = usersDB.users.find((user) => user.username === name); //check username
   const userFound = await Users.findOne({ username: name }).exec();
-  console.log(userFound);
   if (!userFound)
     return res.status(401).json({ message: "User doesn't exist" });
   const comparision = await bcrypt.compare(pwd, userFound.password); //check password

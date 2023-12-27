@@ -5,7 +5,6 @@ import Login from "./Login";
 const RequireAuth = () => {
   const location = useLocation();
   const { auth } = useAuth();
-  console.log(auth);
   return auth?.name ? (
     <Outlet />
   ) : (
