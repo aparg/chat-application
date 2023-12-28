@@ -68,11 +68,10 @@ app.get("/protected", (req, res) => res.send("Secret"));
 mongoose.connection.once("open", () => {
   io.on("connection", (socket) => {
     socket.on("join room", ({ conversationId }) => {
-      console.log("joining" + conversationId);
       socket.join(conversationId);
     });
-    sendMessageSocket(socket, io);
     getMessageSocket(socket, io);
+    sendMessageSocket(socket, io);
   });
 
   // app.listen(PORT, () =>  {});
