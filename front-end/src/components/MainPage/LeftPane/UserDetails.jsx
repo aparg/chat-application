@@ -3,15 +3,23 @@ import profileImg from "../../../assets/images/profile.jpg";
 import { v4 as uuidv4 } from "uuid";
 import useAuth from "../../../hooks/useAuth";
 import SearchBar from "./SearchBar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useReceiverName from "../../../hooks/useReceiverName";
+import useJoinRoom from "../../../hooks/useJoinRoom";
+import { axiosPrivate } from "../../../api/axios";
+import usePrivateAxios from "../../../hooks/usePrivateAxios";
 const UserDetails = () => {
-  const sampleUsers = ["Achit Gaihre", "ramrijal", "apar1", "apar"];
+  const [sampleUsers, setSampleUsers] = useState([]);
   const { auth } = useAuth();
-  const { setReceiverName } = useReceiverName();
+  const axiosPrivate = usePrivateAxios();
   useEffect(() => {
-    setReceiverName(sampleUsers[0]);
+    const getUsers = async () => {
+      const response = await axiosPrivate.post("/allusers");
+      setSampleUsers(response?.data);
+    };
+    getUsers();
   }, []);
+  useJoinRoom();
   return (
     <section className="flex flex-col w-3/12 h-full ">
       <section className="flex flex-row my-5 items-center">

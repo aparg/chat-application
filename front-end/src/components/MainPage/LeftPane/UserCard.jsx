@@ -1,25 +1,10 @@
-import { useEffect, useRef, useState } from "react";
 import profileImg from "../../../assets/images/profile.jpg";
 import useReceiverName from "../../../hooks/useReceiverName";
-import usePrivateAxios from "../../../hooks/usePrivateAxios";
-import useConversationId from "../../../hooks/useConversationId";
-import { socket } from "../../../socket/socket";
 const UserCard = ({ name }) => {
-  const axiosPrivate = usePrivateAxios();
-  const CONVERSATION_URL = "/conversation";
-  const { setReceiverName, receiverName } = useReceiverName();
-  const { conversationId, setConversationId } = useConversationId();
+  const { receiverName, setReceiverName } = useReceiverName();
 
   const handleClick = async () => {
-    const response = await axiosPrivate.post(
-      CONVERSATION_URL,
-      JSON.stringify({ receiverName: name })
-    );
-    socket.emit("join room", {
-      conversationId: response?.data?.conversationId,
-    });
     setReceiverName(name);
-    setConversationId(response?.data?.conversationId);
   };
   return (
     <div
