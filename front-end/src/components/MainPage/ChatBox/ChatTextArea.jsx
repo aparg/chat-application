@@ -15,9 +15,10 @@ function ChatTextArea() {
     };
     console.log(data);
     socket.emit("chat message", data);
+    setTextData("");
   };
   return (
-    <div className="absolute bottom-5 w-11/12 flex h-1/20">
+    <div className="relative flex h-1/20 w-11/12">
       <textarea
         className="bg-white resize-none border-0 w-10/12 rounded-3xl text-black flex items-center px-5 text-align-center pt-1 overflow-hidden focus:outline-0"
         onChange={(e) => setTextData(e.target.value)}
