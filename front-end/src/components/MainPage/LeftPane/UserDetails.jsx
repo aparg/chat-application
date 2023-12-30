@@ -14,7 +14,9 @@ const UserDetails = () => {
   const axiosPrivate = usePrivateAxios();
   useEffect(() => {
     const getUsers = async () => {
-      const response = await axiosPrivate.post("/allusers");
+      const response = await axiosPrivate.post("/allusers", {
+        senderName: auth.name,
+      });
       setSampleUsers(response?.data);
     };
     getUsers();

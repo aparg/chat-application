@@ -14,17 +14,24 @@ const useJoinRoom = async () => {
   useEffect(() => {
     if (receiverName) {
       const roomJoin = async () => {
-        const CONVERSATION_URL = "/conversation";
-        const response = await axiosPrivate.post(
-          CONVERSATION_URL,
-          JSON.stringify({ receiverName: receiverName })
-        );
-        const newConversationId = response?.data?.conversationId;
-        socket.emit("join room", {
-          conversationId: newConversationId,
-        });
-        setReceiverName(receiverName);
-        setConversationId(newConversationId);
+        try {
+          const CONVERSATION_URL = "/conversation";
+          setLoading(true);
+          const response = await axiosPrivate.post(
+            CONVERSATION_URL,
+            JSON.stringify({ receiverName: receiverName })
+          );
+          setLoading(false);
+          const newConversationId = response?.data?.conversationId;
+          socket.emit("join room", {
+            conversationId: newConversationId,
+          });
+          console.log(newConversationId);
+          setReceiverName(receiverName);
+          setConversationId(newConversationId);
+        } catch (err) {
+          setErr(err);
+        }
       };
       roomJoin();
     }

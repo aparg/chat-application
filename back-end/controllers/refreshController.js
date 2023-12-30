@@ -9,7 +9,6 @@ const jwt = require("jsonwebtoken");
 const Users = require("../models/Users");
 const handlleRefreshToken = async (req, res) => {
   const cookies = req.cookies;
-  console.log(cookies);
   if (!cookies?.jwt) return res.sendStatus(401);
   //check if received user token is valid for any user or not
   const refreshToken = cookies.jwt;

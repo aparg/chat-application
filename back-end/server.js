@@ -9,6 +9,7 @@ const refreshToken = require("./routes/refreshToken");
 const logout = require("./routes/logout");
 const message = require("./routes/message");
 const conversation = require("./routes/conversation");
+const allUsers = require("./routes/allUsers");
 //for jwt verification
 const { verifyToken } = require("./middlewares/jwtVerify");
 const rolesVerify = require("./middlewares/rolesVerify");
@@ -60,6 +61,7 @@ app.use("/logout", logout);
 app.use(verifyToken);
 app.use("/conversation", conversation);
 app.use("/message", message);
+app.use("/allusers", allUsers);
 // app.use("/message", message);
 app.get("/protected", (req, res) => res.send("Secret"));
 // app.use(rolesVerify(ROLES.Admin));

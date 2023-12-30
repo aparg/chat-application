@@ -32,11 +32,10 @@ const getConversationId = async (req, res) => {
     console.log("Getting Conversation Id...");
     const senderId = await findUserId(user);
     const receiverId = await findUserId(receiverName);
-    console.log(`${user} and ${receiverName}`);
+    console.log(receiverId, senderId);
     const conversation = await Conversation.findOne({
       participants: { $all: [receiverId, senderId] },
     }).exec();
-    console.log(conversation);
     //if converssation exists, return its id else create a new conversation and return the conversation's id
     const conversationId = conversation?._id
       ? conversation?._id

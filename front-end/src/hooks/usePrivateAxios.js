@@ -23,6 +23,7 @@ const usePrivateAxios = () => {
       //if there is an error, it is assumed that the access token has expired and a new access token is required to get access
       async (err) => {
         const prevRequest = err?.config;
+        console.log(err);
         if (err?.response?.status === 403 && !prevRequest?.oldReq) {
           prevRequest.oldReq = true;
           //set oldReq to true so that if forbidden is returned once again, new access token is not fetched

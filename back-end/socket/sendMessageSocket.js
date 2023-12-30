@@ -15,7 +15,6 @@ const messageSocket = (socket, io) => {
     })
       .populate("sender", "username")
       .exec();
-    console.log(conversationId);
     //emit changes to all participants in the room with same conversation id
     io.to(conversationId).emit("message response", messages);
   });

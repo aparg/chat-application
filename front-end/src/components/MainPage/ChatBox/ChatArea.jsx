@@ -19,7 +19,6 @@ export const ChatArea = () => {
   useEffect(() => {
     const div = chatDivRef.current;
     div.scrollTo(0, div.scrollHeight);
-    console.log(div);
   });
   return (
     <>
@@ -28,10 +27,8 @@ export const ChatArea = () => {
         ref={chatDivRef}
       >
         {messages.map((data) => {
-          console.log(data);
           const senderName = data.sender.username;
           //determine if it is a sender message or not
-          console.log(senderName, auth.name);
           if (senderName === auth.name) {
             return (
               <ChatBubble content={data.content} sender={true} key={uuidv4()} />
