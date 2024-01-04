@@ -1,9 +1,9 @@
-import UserCard from "./UserCard";
+import UserCard from "../UserCard";
 
 export const SearchList = ({ itemsList, show, onOptionSelect }) => {
   return (
     <div
-      className={`w-full relative z-10 overflow-auto max-h-2/6 ${
+      className={`w-full relative z-10 overflow-auto max-h-44 ${
         show && "hidden"
       }`}
     >

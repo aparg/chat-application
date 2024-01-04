@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { SearchList } from "./SearchList";
-import useFriendList from "../../../hooks/useFriendList";
+import useFriendList from "../../../../hooks/useFriendList";
 
 function Search() {
   const [searchValue, setSearchValue] = useState("");
@@ -19,12 +19,12 @@ function Search() {
   };
   return (
     <>
-      <textarea
+      <input
         className="bg-white resize-none border-0 w-full rounded-3xl text-black flex items-center px-5 pt-1 h-1/20 focus:outline-0"
         placeholder="Search Contact"
         onChange={handleChange}
         value={searchValue}
-      ></textarea>
+      ></input>
       <SearchList
         itemsList={filteredList}
         show={!searchValue}
