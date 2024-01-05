@@ -24,13 +24,10 @@ export const FriendList = () => {
   }, []);
   useJoinRoom();
   return (
-    <>
-      <h1 className="text-black font-bold my-5 text-3xl">Inbox</h1>
-      <section className="bg-light-cream rounded-lg p-3 items-center flex flex-col overflow-auto">
-        {friends?.map((element) => (
-          <UserCard name={element} key={uuidv4()} />
-        ))}
-      </section>
-    </>
+    <section className="bg-light-cream rounded-lg p-3 items-center flex flex-col overflow-auto basis-5/12">
+      {friends?.map((element) => (
+        <UserCard name={element} key={uuidv4()} />
+      ))}
+    </section>
   );
 };

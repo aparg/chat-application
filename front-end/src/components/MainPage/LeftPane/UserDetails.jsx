@@ -1,15 +1,15 @@
 import profileImg from "../../../assets/images/profile.jpg";
 import Search from "./Search/Search";
-import { FriendList } from "./AddFriend/FriendList";
+import { FriendList } from "./FriendList";
 import useAuth from "../../../hooks/useAuth";
 import { FriendsProvider } from "../../../context/FriendsContext";
-import { AddFriends } from "./AddFriends";
+import { AddFriends } from "./AddFriends/AddFriends";
 const UserDetails = () => {
   const { auth } = useAuth();
   return (
     <FriendsProvider>
-      <section className="flex flex-col w-3/12 h-full relative">
-        <section className="flex flex-row my-5 items-center">
+      <section className="flex flex-col justify-between w-3/12 h-full relative">
+        <section className="flex flex-row basis-2/12 items-center">
           <img
             src={profileImg}
             className="rounded-full border-dark-brown border-2 shadow-gray flex-none w-1/5"
@@ -19,7 +19,9 @@ const UserDetails = () => {
           </div>
         </section>
         <Search />
+        <h1 className="text-black font-bold text-3xl">Inbox</h1>
         <FriendList />
+        <h1 className="text-black font-bold text-3xl">Add Friends</h1>
         <AddFriends />
       </section>
     </FriendsProvider>

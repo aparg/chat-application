@@ -1,9 +1,13 @@
 import React from "react";
+import AddFriendCard from "./AddFriendCard";
 
 export const AddFriends = () => {
+  const friendReqArray = ["ram", "hari", "laxman"];
   return (
-    <>
-      <h1 className="text-black font-bold my-5 text-3xl">Add Friends</h1>
-    </>
+    <div className="overflow-auto basis-2/12">
+      {friendReqArray.map((data) => (
+        <AddFriendCard name={data} />
+      ))}
+    </div>
   );
 };
