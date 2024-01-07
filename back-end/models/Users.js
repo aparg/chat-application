@@ -17,6 +17,10 @@ const userSchema = new Schema({
     },
     Admin: Number,
   },
+  friendRequestList: {
+    type: Array,
+    default: [],
+  },
   refreshToken: String,
 });
 
