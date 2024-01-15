@@ -10,6 +10,8 @@ const logout = require("./routes/logout");
 const message = require("./routes/message");
 const conversation = require("./routes/conversation");
 const allUsers = require("./routes/allUsers");
+const addFriends = require("./routes/addFriends");
+const showFriendReq = require("./routes/showFriendReq");
 //for jwt verification
 const { verifyToken } = require("./middlewares/jwtVerify");
 const rolesVerify = require("./middlewares/rolesVerify");
@@ -62,13 +64,15 @@ app.use(verifyToken);
 app.use("/conversation", conversation);
 app.use("/message", message);
 app.use("/allusers", allUsers);
+app.use("/addfriends", addFriends);
+app.use("/showFriendRequests", showFriendReq);
 // app.use("/message", message);
 app.get("/protected", (req, res) => res.send("Secret"));
 // app.use(rolesVerify(ROLES.Admin));
 //all the protected routes should be placed here...
 
 mongoose.connection.once("open", () => {
-  io.on("connection", (socket) => {
+  io.on("connection", async (socket) => {
     socket.on("join room", ({ conversationId }) => {
       socket.join(conversationId);
     });

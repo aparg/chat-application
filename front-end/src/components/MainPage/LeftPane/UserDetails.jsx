@@ -4,6 +4,7 @@ import { FriendList } from "./FriendList";
 import useAuth from "../../../hooks/useAuth";
 import { FriendsProvider } from "../../../context/FriendsContext";
 import { AddFriends } from "./AddFriends/AddFriends";
+import FriendRequests from "./FriendRequests/FriendRequests";
 const UserDetails = () => {
   const { auth } = useAuth();
   return (
@@ -23,6 +24,7 @@ const UserDetails = () => {
         <FriendList />
         <h1 className="text-black font-bold text-3xl">Add Friends</h1>
         <AddFriends />
+        <FriendRequests />
       </section>
     </FriendsProvider>
   );

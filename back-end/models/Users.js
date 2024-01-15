@@ -18,7 +18,12 @@ const userSchema = new Schema({
     Admin: Number,
   },
   friendRequestList: {
-    type: Array,
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     default: [],
   },
   refreshToken: String,
