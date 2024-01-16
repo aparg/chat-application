@@ -27,6 +27,7 @@ const PORT = process.env.PORT || 3500;
 const { Server } = require("socket.io");
 const sendMessageSocket = require("./socket/sendMessageSocket");
 const getMessageSocket = require("./socket/getMessageSocket");
+const Users = require("./models/Users");
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
@@ -45,7 +46,7 @@ app.use(cookieParser());
 
 //cors
 app.use(cors(corsOptions));
-
+app.set("io", io); //to provide io object to  all the routes
 //welcome route
 app.get("/", (req, res) => {
   res.send(
@@ -73,6 +74,11 @@ app.get("/protected", (req, res) => res.send("Secret"));
 
 mongoose.connection.once("open", () => {
   io.on("connection", async (socket) => {
+    socket.on("username", ({ username }) => {
+      console.log("joined");
+      const userId = Users.find({ username });
+      socket.join(`user${userId}`);
+    });
     socket.on("join room", ({ conversationId }) => {
       socket.join(conversationId);
     });

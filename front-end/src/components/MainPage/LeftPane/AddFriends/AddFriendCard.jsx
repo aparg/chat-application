@@ -6,17 +6,10 @@ import useAuth from "../../../../hooks/useAuth";
 const AddFriendCard = ({ username }) => {
   const [requestSent, setRequestSent] = useState(false);
   const { user } = useAuth();
+  const privateAxios = usePrivateAxios();
   // const axiosPrivate = usePrivateAxios();
   const sendRequest = async () => {
-    // const response = await axiosPrivate.post(
-    //   "/addfriends",
-    //   JSON.stringify({ username })
-    // );
-    // if (response.status === "200") setRequestSent(true);
-
-    socket.emit("sendFriendRequest", {
-      receiverName: username,
-    });
+    await privateAxios.post("/addfriends", { receiverName: username });
   };
 
   return (

@@ -4,6 +4,7 @@ import AuthContext from "../context/AuthContext";
 import peopleImg from "../assets/images/login-page.png";
 import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
+import { socket } from "../socket/socket";
 const Login = () => {
   const { setAuth } = useContext(AuthContext);
   const nameRef = useRef(null);
@@ -40,6 +41,7 @@ const Login = () => {
       setName(""); //clear the form
       setPwd("");
       setSuccess(true);
+      socket.emit("username", { username: name });
     } catch (err) {
       setSpinner(false);
       if (!err?.response) {

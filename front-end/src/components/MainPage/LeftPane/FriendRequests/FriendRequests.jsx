@@ -18,6 +18,7 @@ function FriendRequests() {
         console.log(err);
       });
     socket.on("friendRequest", (data) => {
+      console.log("Requeest aayo");
       setFriendRequests((prevRequests) => {
         return [...prevRequests, data];
       });
