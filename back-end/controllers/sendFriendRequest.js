@@ -13,7 +13,6 @@ const sendFriendRequest = async (req, res) => {
       requestReceiver.save();
       console.log("saved");
     }
-    console.log(requestReceiver.username);
     io.to(`user${requestReceiver._id}`).emit("friendRequest", requestSender);
   } catch (err) {
     console.error(err);

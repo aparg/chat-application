@@ -18,14 +18,16 @@ function FriendRequests() {
         console.log(err);
       });
     socket.on("friendRequest", (data) => {
-      console.log("Requeest aayo");
       setFriendRequests((prevRequests) => {
         return [...prevRequests, data];
       });
     });
+    return () => {
+      socket.off("friendRequest");
+    };
   }, []);
 
-  return friendRequests.map((friendRequest) => (
+  return friendRequests?.map((friendRequest) => (
     <FriendRequestCard username={friendRequest.username} key={uuidv4()} />
   ));
 }

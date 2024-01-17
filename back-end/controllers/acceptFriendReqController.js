@@ -5,7 +5,6 @@ const sendRequest = async (req, res) => {
     console.log(username);
     const filter = { username: req.user };
     const requestReceiver = await Users.findOne(filter).exec();
-    console.log(requestReceiver);
     const requestSender = await Users.findOne({ username }).exec();
     if (!requestSender) {
       res.sendStatus(404);

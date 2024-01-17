@@ -27,7 +27,7 @@ export const ChatArea = () => {
         ref={chatDivRef}
       >
         {messages.map((data) => {
-          const senderName = data.sender.username;
+          const senderName = data?.sender?.username;
           //determine if it is a sender message or not
           if (senderName === auth.name) {
             return (

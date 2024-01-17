@@ -74,13 +74,21 @@ app.get("/protected", (req, res) => res.send("Secret"));
 
 mongoose.connection.once("open", () => {
   io.on("connection", async (socket) => {
-    socket.on("username", ({ username }) => {
+    socket.on("username", async ({ username }) => {
       console.log("joined");
-      const userId = Users.find({ username });
+      const user = await Users.findOne({ username }).exec();
+      const userId = user._id;
       socket.join(`user${userId}`);
     });
     socket.on("join room", ({ conversationId }) => {
+      socket.rooms.forEach((value) => {
+        //leave other rooms except fo the room for conversation currently opened
+        if (!value?.includes("user") && value !== socket.id) {
+          socket.leave(value);
+        }
+      });
       socket.join(conversationId);
+      console.log(socket.rooms);
     });
     getMessageSocket(socket, io);
     sendMessageSocket(socket, io);
