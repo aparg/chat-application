@@ -88,7 +88,6 @@ mongoose.connection.once("open", () => {
         }
       });
       socket.join(conversationId);
-      console.log(socket.rooms);
     });
     getMessageSocket(socket, io);
     sendMessageSocket(socket, io);

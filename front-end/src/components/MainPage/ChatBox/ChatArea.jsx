@@ -4,6 +4,7 @@ import { socket } from "../../../socket/socket";
 import ChatBubble from "./ChatBubble";
 import useAuth from "../../../hooks/useAuth";
 import { v4 as uuidv4 } from "uuid";
+import CenterBox from "../../../Layouts/CenterBox";
 
 export const ChatArea = () => {
   const { conversationId } = useConversationId();
@@ -22,10 +23,7 @@ export const ChatArea = () => {
   });
   return (
     <>
-      <section
-        className="flex flex-col overflow-y-scroll h-4/5 p-3 w-full"
-        ref={chatDivRef}
-      >
+      <CenterBox ref={chatDivRef}>
         {messages.map((data) => {
           const senderName = data?.sender?.username;
           //determine if it is a sender message or not
@@ -43,7 +41,7 @@ export const ChatArea = () => {
             );
           }
         })}
-      </section>
+      </CenterBox>
     </>
   );
 };
