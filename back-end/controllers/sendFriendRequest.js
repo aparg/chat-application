@@ -11,7 +11,6 @@ const sendFriendRequest = async (req, res) => {
     if (!requestReceiver.friendRequestList.includes(requestSender._id)) {
       requestReceiver.friendRequestList.push(requestSender._id);
       requestReceiver.save();
-      console.log("saved");
     }
     io.to(`user${requestReceiver._id}`).emit("friendRequest", requestSender);
   } catch (err) {

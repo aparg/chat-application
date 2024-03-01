@@ -26,6 +26,15 @@ const userSchema = new Schema({
     ],
     default: [],
   },
+  friends: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    default: [],
+  },
   refreshToken: String,
 });
 

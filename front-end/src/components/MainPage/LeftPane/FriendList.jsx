@@ -9,19 +9,20 @@ import useAuth from "../../../hooks/useAuth";
 import UserCard from "./UserCard";
 import useFriendList from "../../../hooks/useFriendList";
 
-export const FriendList = () => {
+export const FriendList = ({ reloadFriendList }) => {
   const { friends, setFriends } = useFriendList();
   const { auth } = useAuth();
   const axiosPrivate = usePrivateAxios();
   useEffect(() => {
     const getUsers = async () => {
-      const response = await axiosPrivate.post("/allusers", {
+      const response = await axiosPrivate.post("/friends/get", {
         senderName: auth.name,
       });
       setFriends(response?.data);
     };
     getUsers();
   }, []);
+
   useJoinRoom();
   return (
     <section className="bg-light-cream rounded-lg p-3 items-center flex flex-col overflow-auto basis-5/12">

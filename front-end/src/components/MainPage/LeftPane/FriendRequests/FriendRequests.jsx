@@ -8,15 +8,7 @@ function FriendRequests() {
   const privateAxios = usePrivateAxios();
   console.log(friendRequests);
   useEffect(() => {
-    privateAxios
-      .post("/showFriendRequests")
-      .then((result) => {
-        setFriendRequests(result?.data);
-      })
-      .catch((err) => {
-        console.error("Couldn't fetch friend requests");
-        console.log(err);
-      });
+    getFriendList();
     socket.on("friendRequest", (data) => {
       setFriendRequests((prevRequests) => {
         return [...prevRequests, data];
@@ -27,8 +19,26 @@ function FriendRequests() {
     };
   }, []);
 
+  const getFriendList = () => {
+    console.log("REFRESHING..");
+    privateAxios
+      .post("/showFriendRequests")
+      .then((result) => {
+        setFriendRequests(result?.data);
+      })
+      .catch((err) => {
+        console.error("Couldn't fetch friend requests");
+        console.log(err);
+      });
+  };
+
   return friendRequests?.map((friendRequest) => (
-    <FriendRequestCard username={friendRequest.username} key={uuidv4()} />
+    <FriendRequestCard
+      username={friendRequest.username}
+      refreshFriendReqList={getFriendList}
+      key={uuidv4()}
+      yo={() => console.log("yo")}
+    />
   ));
 }
 

@@ -1,10 +1,21 @@
 import React from "react";
 import profileImg from "../../../../assets/images/profile.jpg";
+import usePrivateAxios from "../../../../hooks/usePrivateAxios";
 
-function FriendRequestCard({ username }) {
-  const acceptReq = () => {};
+function FriendRequestCard({ username, refreshFriendList, yo }) {
+  const privateAxios = usePrivateAxios();
+  const acceptReq = async () => {
+    await privateAxios.post("manageFriendRequest/accept", { username });
+    refreshFriendReqList();
+    yo();
+  };
 
-  const declineReq = () => {};
+  const declineReq = async () => {
+    await privateAxios.post("/manageFriendRequest/decline", { username });
+    console.log("declining");
+    refreshFriendList();
+  };
+
   return (
     <>
       <div
@@ -26,7 +37,6 @@ function FriendRequestCard({ username }) {
             </button>
           </div>
         </div>
-        {/* </div> */}
       </div>
     </>
   );
