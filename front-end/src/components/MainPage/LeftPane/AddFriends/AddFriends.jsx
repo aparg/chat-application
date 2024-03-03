@@ -1,14 +1,83 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddFriendCard from "./AddFriendCard";
 import { v4 as uuidv4 } from "uuid";
-export const AddFriends = () => {
-  const [friendReqArray, setFriendReqArray] = useState([]);
-  const suggestedFriends = ["apar", "ramrijal", "apar1"];
+import usePrivateAxios from "../../../../hooks/usePrivateAxios";
+import useSuggestedFriends from "../../../../hooks/useSuggestedFriends";
+import FriendRequestCard from "./FriendRequestCard";
+import useMode from "../../../../hooks/useMode";
+import useFriendRequests from "../../../../hooks/useFriendRequests";
+import { socket } from "../../../../socket/socket";
+export const AddFriends = ({ expandable = true }) => {
+  //loads all friend requests and suggested friends values and passes it through context
+  const privateAxios = usePrivateAxios();
+  const { setSuggestedFriends, suggestedFriends } = useSuggestedFriends();
+  const { setFriendRequests, friendRequests } = useFriendRequests();
+  const { setMode } = useMode();
+  useEffect(() => {
+    getFriendRequests();
+    getSuggestedFriends();
+    socket.on("friendRequest", (data) => {
+      setFriendRequests((prevRequests) => {
+        return [...prevRequests, data];
+      });
+    });
+    return () => {
+      socket.off("friendRequest");
+    };
+  }, []);
+
+  const getSuggestedFriends = () => {
+    privateAxios
+      .post("/friends/get")
+      .then((result) => {
+        setSuggestedFriends(result?.data);
+      })
+      .catch((err) => {
+        console.error("Couldn't fetch friend suggestions");
+        console.log(err);
+      });
+  };
+
+  const getFriendRequests = () => {
+    console.log("REFRESHING..");
+    privateAxios
+      .post("/showFriendRequests")
+      .then((result) => {
+        console.log(result.data);
+        setFriendRequests(result?.data);
+      })
+      .catch((err) => {
+        console.error("Couldn't fetch friend requests");
+        console.log(err);
+      });
+  };
+
   return (
-    <div className="overflow-auto basis-2/12">
-      {suggestedFriends.map((data) => (
-        <AddFriendCard username={data} key={uuidv4()} />
-      ))}
+    <div className="basis-2/12">
+      {expandable && (
+        <div className="flex flex-row items-center justify-between">
+          <h1 className="text-black font-bold text-2xl basis-3/5">
+            Add Friends
+          </h1>
+          <div
+            className="basis-2/5 cursor-pointer "
+            onClick={() => setMode("addfriend")}
+          >
+            See More
+          </div>
+        </div>
+      )}
+
+      {console.log(friendRequests)}
+      {friendRequests.length !== 0 ? (
+        <FriendRequestCard
+          username={friendRequests[0]}
+          refreshFriendList={getFriendRequests}
+          expanded={false}
+        />
+      ) : (
+        <AddFriendCard username={suggestedFriends[0]} />
+      )}
     </div>
   );
 };

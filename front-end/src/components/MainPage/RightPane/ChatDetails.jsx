@@ -1,9 +1,14 @@
 import profileImg from "../../../assets/images/profile.jpg";
 import mediaImg from "../../../assets/images/media.jpg";
 import useReceiverName from "../../../hooks/useReceiverName";
+import useMode from "../../../hooks/useMode";
+import AddFriendCard from "../LeftPane/AddFriends/AddFriendCard";
+import useSuggestedFriends from "../../../hooks/useSuggestedFriends";
 const ChatDetails = () => {
   const { receiverName } = useReceiverName();
-  return (
+  const { mode } = useMode();
+  const { suggestedFriends } = useSuggestedFriends();
+  return mode === "chat" ? (
     <section className="flex flex-col w-3/12 h-full text-black">
       <section className="flex flex-col h-full">
         {receiverName && (
@@ -42,6 +47,14 @@ const ChatDetails = () => {
         </div>
       </section>
     </section>
+  ) : (
+    <div className="flex flex-col">
+      <h1 className="text-black font-bold text-4xl">Explore</h1>
+      <div className="w-100 h-1 my-3 bg-dark-gray"></div>
+      {suggestedFriends.map((data) => (
+        <AddFriendCard username={data} />
+      ))}
+    </div>
   );
 };
 

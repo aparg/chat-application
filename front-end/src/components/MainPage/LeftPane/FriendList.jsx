@@ -9,7 +9,7 @@ import useAuth from "../../../hooks/useAuth";
 import UserCard from "./UserCard";
 import useFriendList from "../../../hooks/useFriendList";
 
-export const FriendList = ({ reloadFriendList }) => {
+export const FriendList = () => {
   const { friends, setFriends } = useFriendList();
   const { auth } = useAuth();
   const axiosPrivate = usePrivateAxios();

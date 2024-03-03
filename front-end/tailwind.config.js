@@ -15,6 +15,7 @@ export default {
         "dark-brown": "#A27E53",
         gray: "rgba(0, 0, 0, 0.05)",
         "dark-gray": "#959595",
+        "semi-dark-gray": "#D9D9D9",
       },
       spacing: {
         999: "999px",

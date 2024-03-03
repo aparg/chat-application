@@ -1,20 +1,18 @@
 import { useState } from "react";
 import profileImg from "../../../../assets/images/profile.jpg";
 import usePrivateAxios from "../../../../hooks/usePrivateAxios";
-import { socket } from "../../../../socket/socket";
-import useAuth from "../../../../hooks/useAuth";
+import PrimaryButton from "../../../Button/PrimaryButton";
 const AddFriendCard = ({ username }) => {
   const [requestSent, setRequestSent] = useState(false);
-  const { user } = useAuth();
   const privateAxios = usePrivateAxios();
-  // const axiosPrivate = usePrivateAxios();
   const sendRequest = async () => {
-    await privateAxios.post("/addfriends", { receiverName: username });
+    await privateAxios
+      .post("/addfriends", { receiverName: username })
+      .then(() => setRequestSent(true));
   };
-
   return (
     <div
-      className={`flex items-center my-1.5 w-full rounded-xl p-10 md:p-2 h-20 hover:cursor-pointer justify-center 
+      className={`flex items-center my-1.5 w-full rounded-xl p-10 md:p-2 h-20 hover:cursor-pointer justify-center bg-light-cream
       }`}
     >
       <img className="rounded-full w-1/6 basis-1/6" src={profileImg}></img>
@@ -22,10 +20,10 @@ const AddFriendCard = ({ username }) => {
       <div className="text-black font-bold text-2xl md:text-sm basis-2/6 w-full text-center">
         {username}
       </div>
-      <button className="bg-gray basis-3/6 w-full" onClick={sendRequest}>
-        {requestSent ? "Request Sent!" : "Add Friend"}
-      </button>
-      {/* </div> */}
+      <PrimaryButton
+        text={requestSent ? "Request Sent!" : "Add Friend"}
+        clicked={sendRequest}
+      />
     </div>
   );
 };

@@ -13,6 +13,7 @@ const sendFriendRequest = async (req, res) => {
       requestReceiver.save();
     }
     io.to(`user${requestReceiver._id}`).emit("friendRequest", requestSender);
+    res.status(200).end();
   } catch (err) {
     console.error(err);
   }

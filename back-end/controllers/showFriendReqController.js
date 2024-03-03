@@ -2,9 +2,12 @@ const Users = require("../models/Users");
 
 const showFriendReq = async (req, res) => {
   const data = await Users.findOne({ username: req.user })
-    .populate("friendRequestList")
+    .populate("friendRequestList", "username")
     .exec();
-  res.json(data?.friendRequestList);
+  console.log("yo");
+  const response = data?.friendRequestList.map((data) => data.username);
+  console.log(response);
+  res.json(response);
 };
 
 module.exports = { showFriendReq };

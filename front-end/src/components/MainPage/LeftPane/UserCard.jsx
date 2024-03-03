@@ -1,10 +1,12 @@
 import profileImg from "../../../assets/images/profile.jpg";
+import useMode from "../../../hooks/useMode";
 import useReceiverName from "../../../hooks/useReceiverName";
 const UserCard = ({ name }) => {
   const { receiverName, setReceiverName } = useReceiverName();
-
+  const { mode, setMode } = useMode();
   const handleClick = async () => {
     setReceiverName(name);
+    mode !== "chat" && setMode("chat");
   };
   return (
     <div
