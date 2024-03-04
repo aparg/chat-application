@@ -6,7 +6,7 @@ The real-time bidirectional data flow is done using socket.io
 1) Clone the github repo
 2) Add .env files in back-end and front-end as shown in .env.example files.
 3) Open terminal and navigate to front-end folder and run command: `npm run dev`
-4) Open another terminal instance, navigate to back-end folder and run command: `npm run dev`
+4) Open another terminal instance, navigate to back-end folder and run command: `npm start`
 5) Enter the URL given in your browser and start chatting!
 
 ## Author

@@ -7,12 +7,13 @@ import FriendRequestCard from "./FriendRequestCard";
 import useMode from "../../../../hooks/useMode";
 import useFriendRequests from "../../../../hooks/useFriendRequests";
 import { socket } from "../../../../socket/socket";
+import { MODES } from "../../../../../constants/modes";
 export const AddFriends = ({ expandable = true }) => {
   //loads all friend requests and suggested friends values and passes it through context
   const privateAxios = usePrivateAxios();
   const { setSuggestedFriends, suggestedFriends } = useSuggestedFriends();
   const { setFriendRequests, friendRequests } = useFriendRequests();
-  const { setMode } = useMode();
+  const { mode, setMode } = useMode();
   useEffect(() => {
     getFriendRequests();
     getSuggestedFriends();
@@ -60,8 +61,10 @@ export const AddFriends = ({ expandable = true }) => {
             Add Friends
           </h1>
           <div
-            className="basis-2/5 cursor-pointer "
-            onClick={() => setMode("addfriend")}
+            className="basis-2/5 cursor-pointer text-end text-dark-gray hover:text-black"
+            onClick={() =>
+              mode !== MODES.addFriends && setMode(MODES.addFriends)
+            }
           >
             See More
           </div>
@@ -71,7 +74,8 @@ export const AddFriends = ({ expandable = true }) => {
       {console.log(friendRequests)}
       {friendRequests.length !== 0 ? (
         <FriendRequestCard
-          username={friendRequests[0]}
+          username={friendRequests[0].username}
+          profilePhoto={friendRequests[0].profilePhoto}
           refreshFriendList={getFriendRequests}
           expanded={false}
         />

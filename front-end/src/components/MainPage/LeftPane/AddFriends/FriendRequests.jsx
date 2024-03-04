@@ -31,13 +31,13 @@ function FriendRequests() {
         console.log(err);
       });
   };
-
+  console.log(friendRequests);
   return friendRequests?.map((friendRequest) => (
     <FriendRequestCard
       username={friendRequest.username}
+      profilePhoto={friendRequest.profilePhoto}
       refreshFriendReqList={getFriendList}
       key={uuidv4()}
-      yo={() => console.log("yo")}
     />
   ));
 }

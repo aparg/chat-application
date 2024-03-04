@@ -22,9 +22,11 @@ export const AddFriendsSection = () => {
   };
   return (
     <div className="overflow-auto w-full h-full py-5 px-5">
+      {console.log(friendRequests)}
       {friendRequests.map((data) => (
         <FriendRequestCard
-          username={data}
+          username={data.username}
+          profilePhoto={data.profilePhoto}
           refreshFriendList={getFriendRequests}
           key={uuidv4()}
         />

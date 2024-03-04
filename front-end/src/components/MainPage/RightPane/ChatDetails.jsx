@@ -52,7 +52,7 @@ const ChatDetails = () => {
       <h1 className="text-black font-bold text-4xl">Explore</h1>
       <div className="w-100 h-1 my-3 bg-dark-gray"></div>
       {suggestedFriends.map((data) => (
-        <AddFriendCard username={data} />
+        <AddFriendCard username={data} key={data} />
       ))}
     </div>
   );

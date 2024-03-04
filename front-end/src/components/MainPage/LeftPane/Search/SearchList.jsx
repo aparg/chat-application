@@ -11,7 +11,7 @@ export const SearchList = ({ itemsList, show, onOptionSelect }) => {
       {itemsList?.map((data) => {
         return (
           <div onClick={onOptionSelect}>
-            <UserCard name={data} search={true} />
+            <UserCard name={data} search={true} key={data} />
           </div>
         );
       })}

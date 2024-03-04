@@ -42,8 +42,8 @@ const checkUser = async (req, res) => {
     // save a refresh token for user who has got the access token so that they can use the refresh token to gain new access token after current access token has expired
 
     const filter = { username: name };
-    const update = { refreshToken: refreshToken };
-    await Users.findOneAndUpdate(filter, update).exec();
+    // const update = { refreshToken: refreshToken };
+    // await Users.findOneAndUpdate(filter, update).exec();
     /* For file-based databse*/
     // const otherUsers = usersDB.users.filter((user) => user.username !== name);
     // const currentUser = { ...userFound, refreshToken };
@@ -52,14 +52,21 @@ const checkUser = async (req, res) => {
     //   path.join(__dirname, "..", "models", "users.json"),
     //   JSON.stringify(usersDB.users)
     // );
-
+    //get profile picture
+    const user = await Users.findOne(filter).exec();
+    user.refreshToken = refreshToken;
+    user.save();
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
       sameSite: "none",
       secure: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
-    return res.json({ accessToken, roles: roleValues });
+    return res.json({
+      accessToken,
+      roles: roleValues,
+      profilePhoto: user.profilePhoto,
+    });
     // return res.status(200).json({ message: "Valid username and password" });
   }
   return res.status(201).json({ message: "Password doesn't match" });

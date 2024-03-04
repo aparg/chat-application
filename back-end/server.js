@@ -14,6 +14,7 @@ const friends = require("./routes/friends");
 const addFriends = require("./routes/addFriends");
 const showFriendReq = require("./routes/showFriendReq");
 const manageFriendReq = require("./routes/manageFriendRequest");
+const editProfile = require("./routes/editProfile");
 //for jwt verification
 const { verifyToken } = require("./middlewares/jwtVerify");
 const rolesVerify = require("./middlewares/rolesVerify");
@@ -42,7 +43,7 @@ dbConfig();
 app.use(express.urlencoded({ extended: false }));
 
 // built-in middleware for json
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
 
 app.use(cookieParser());
 
@@ -67,12 +68,12 @@ app.use(verifyToken);
 app.use("/conversation", conversation);
 app.use("/message", message);
 // app.use("/allusers", allUsers);
+app.use("/editProfile", editProfile);
 app.use("/friends", friends);
 app.use("/addfriends", addFriends);
 app.use("/showFriendRequests", showFriendReq);
 app.use("/manageFriendRequest", manageFriendReq);
 // app.use("/message", message);
-app.get("/protected", (req, res) => res.send("Secret"));
 // app.use(rolesVerify(ROLES.Admin));
 //all the protected routes should be placed here...
 

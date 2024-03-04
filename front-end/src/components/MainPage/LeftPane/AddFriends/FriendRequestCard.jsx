@@ -4,7 +4,12 @@ import usePrivateAxios from "../../../../hooks/usePrivateAxios";
 import PrimaryButton from "../../../Button/PrimaryButton";
 import { SecondaryButton } from "../../../Button/SecondaryButton";
 
-function FriendRequestCard({ username, refreshFriendList, expanded = true }) {
+function FriendRequestCard({
+  username,
+  refreshFriendList,
+  expanded = true,
+  profilePhoto = null,
+}) {
   const privateAxios = usePrivateAxios();
   const acceptReq = async () => {
     await privateAxios.post("manageFriendRequest/accept", { username });
@@ -25,7 +30,7 @@ function FriendRequestCard({ username, refreshFriendList, expanded = true }) {
         <div className="flex flex-row items-center basis-6/12">
           <img
             className={`rounded-full h-100 ${expanded ? `w-2/12` : `w-4/12`}`}
-            src={profileImg}
+            src={profilePhoto || profileImg}
           ></img>
           <div className="text-black font-bold text-2xl md:text-sm ml-5 leading-none">
             {username}

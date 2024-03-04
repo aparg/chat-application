@@ -37,7 +37,8 @@ const Login = () => {
       setSpinner(false);
       const roles = response?.data?.roles;
       const accessToken = response?.data?.accessToken;
-      setAuth({ name, pwd, roles, accessToken });
+      const profilePhoto = response?.data?.profilePhoto;
+      setAuth({ name, accessToken, profilePhoto });
       setName(""); //clear the form
       setPwd("");
       setSuccess(true);
