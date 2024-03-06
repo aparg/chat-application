@@ -24,7 +24,6 @@ const decline = async (req, res) => {
       "friendRequestList"
     );
     !user && res.status(404);
-    console.log(user);
     user.friendRequestList = user.friendRequestList.filter(
       (val) => val.username !== req.body.username
     );

@@ -32,12 +32,19 @@ export default {
       },
       animation: {
         pop: "pop 0.5s ease-in-out",
+        drop: "drop 0.5s ease-in-out",
       },
       borderRadius: {
         "4xl": "5rem",
       },
       maxWidth: {
         60: "60%",
+      },
+      keyframes: {
+        drop: {
+          "0%": { transform: "translateY(-50%)" },
+          "100%": { transform: "translateY(0%)" },
+        },
       },
     },
   },

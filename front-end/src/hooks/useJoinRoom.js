@@ -1,4 +1,4 @@
-import useReceiverName from "./useReceiverName";
+import useReceiver from "./useReceiver";
 import useConversationId from "./useConversationId";
 import usePrivateAxios from "./usePrivateAxios";
 import { useEffect, useState } from "react";
@@ -8,26 +8,26 @@ import { socket } from "../socket/socket";
 const useJoinRoom = async () => {
   const [loading, setLoading] = useState();
   const [err, setErr] = useState();
-  const { receiverName, setReceiverName } = useReceiverName();
+  const { receiver } = useReceiver();
   const { setConversationId } = useConversationId();
   const axiosPrivate = usePrivateAxios();
   useEffect(() => {
-    if (receiverName) {
+    if (receiver.username) {
       const roomJoin = async () => {
         try {
           const CONVERSATION_URL = "/conversation";
           setLoading(true);
+          console.log(receiver.username);
           const response = await axiosPrivate.post(
             CONVERSATION_URL,
-            JSON.stringify({ receiverName: receiverName })
+            JSON.stringify({ receiverName: receiver.username })
           );
           setLoading(false);
           const newConversationId = response?.data?.conversationId;
           socket.emit("join room", {
             conversationId: newConversationId,
           });
-          console.log(newConversationId);
-          setReceiverName(receiverName);
+          // setReceiver({ username: receiver.username });
           setConversationId(newConversationId);
         } catch (err) {
           setErr(err);
@@ -35,7 +35,7 @@ const useJoinRoom = async () => {
       };
       roomJoin();
     }
-  }, [receiverName]);
+  }, [receiver.username]);
   return { loading, err };
 };
 

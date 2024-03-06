@@ -1,8 +1,8 @@
 import Search from "./Search/Search";
-import { FriendList } from "./FriendList";
 import { FriendsProvider } from "../../../context/FriendsContext";
 import { AddFriends } from "./AddFriends/AddFriends";
 import ProfileDetail from "./ProfileDetail";
+import ChatList from "./ChatList/ChatList";
 
 const UserDetails = () => {
   return (
@@ -11,7 +11,7 @@ const UserDetails = () => {
         <ProfileDetail />
         <Search />
         <h1 className="text-black font-bold text-3xl">Inbox</h1>
-        <FriendList />
+        <ChatList />
         <AddFriends expandable={true} />
       </section>
     </FriendsProvider>

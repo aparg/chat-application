@@ -5,17 +5,23 @@ import ChatBubble from "./ChatBubble";
 import useAuth from "../../../hooks/useAuth";
 import { v4 as uuidv4 } from "uuid";
 import CenterBox from "../../../Layouts/CenterBox";
+import Loading from "../../Loading/Loading";
 
 export const ChatArea = () => {
   const { conversationId } = useConversationId();
   const { auth } = useAuth();
   const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
   const chatDivRef = useRef(null);
   useEffect(() => {
+    setMessages([]);
+    setLoading(true);
     socket.emit("get message", { conversationId, sender: auth.name });
     socket.on("message response", (data) => {
       setMessages(data);
+      setLoading(false);
     });
+    return () => socket.off("message response");
   }, [conversationId]);
   useEffect(() => {
     const div = chatDivRef.current;
@@ -24,23 +30,31 @@ export const ChatArea = () => {
   return (
     <>
       <CenterBox ref={chatDivRef}>
-        {messages.map((data) => {
-          const senderName = data?.sender?.username;
-          //determine if it is a sender message or not
-          if (senderName === auth.name) {
-            return (
-              <ChatBubble content={data.content} sender={true} key={uuidv4()} />
-            );
-          } else {
-            return (
-              <ChatBubble
-                content={data.content}
-                sender={false}
-                key={uuidv4()}
-              />
-            );
-          }
-        })}
+        {!loading ? (
+          messages.map((data) => {
+            const senderName = data?.sender?.username;
+            //determine if it is a sender message or not
+            if (senderName === auth.name) {
+              return (
+                <ChatBubble
+                  content={data.content}
+                  sender={true}
+                  key={uuidv4()}
+                />
+              );
+            } else {
+              return (
+                <ChatBubble
+                  content={data.content}
+                  sender={false}
+                  key={uuidv4()}
+                />
+              );
+            }
+          })
+        ) : (
+          <Loading />
+        )}
       </CenterBox>
     </>
   );

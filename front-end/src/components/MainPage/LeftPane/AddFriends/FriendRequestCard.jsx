@@ -18,7 +18,6 @@ function FriendRequestCard({
 
   const declineReq = async () => {
     await privateAxios.post("/manageFriendRequest/decline", { username });
-    console.log("declining");
     refreshFriendList();
   };
 
@@ -29,7 +28,9 @@ function FriendRequestCard({
       >
         <div className="flex flex-row items-center basis-6/12">
           <img
-            className={`rounded-full h-100 ${expanded ? `w-2/12` : `w-4/12`}`}
+            className={`rounded-full h-100 ${
+              expanded ? `w-2/12` : `w-4/12`
+            } clip-circle`}
             src={profilePhoto || profileImg}
           ></img>
           <div className="text-black font-bold text-2xl md:text-sm ml-5 leading-none">

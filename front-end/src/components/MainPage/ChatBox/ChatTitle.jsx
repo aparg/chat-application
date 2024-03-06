@@ -3,7 +3,7 @@ import videoCall from "../../../assets/images/icons/video-call.png";
 import info from "../../../assets/images/icons/info.png";
 const ChatTitle = ({ titleValue, icons }) => {
   return (
-    <section className="h-1/10 bg-dark-gray flex items-center pl-10 md:rounded-t-3xl rounded-t-4xl w-full relative">
+    <section className="h-1/10 bg-[#DDCBB6] flex items-center pl-10 md:rounded-t-3xl rounded-t-4xl w-full relative">
       <span className="text-black md:text-2xl font-bold text-xl">
         {titleValue}
       </span>

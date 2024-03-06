@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from "uuid";
 function FriendRequests() {
   const [friendRequests, setFriendRequests] = useState([]);
   const privateAxios = usePrivateAxios();
-  console.log(friendRequests);
   useEffect(() => {
     getFriendList();
     socket.on("friendRequest", (data) => {
@@ -20,7 +19,6 @@ function FriendRequests() {
   }, []);
 
   const getFriendList = () => {
-    console.log("REFRESHING..");
     privateAxios
       .post("/showFriendRequests")
       .then((result) => {
@@ -31,7 +29,6 @@ function FriendRequests() {
         console.log(err);
       });
   };
-  console.log(friendRequests);
   return friendRequests?.map((friendRequest) => (
     <FriendRequestCard
       username={friendRequest.username}

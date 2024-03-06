@@ -7,7 +7,6 @@ export const SearchList = ({ itemsList, show, onOptionSelect }) => {
         show && "hidden"
       }`}
     >
-      {console.log(itemsList)}
       {itemsList?.map((data) => {
         return (
           <div onClick={onOptionSelect}>

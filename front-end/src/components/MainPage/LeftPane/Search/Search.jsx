@@ -6,7 +6,7 @@ function Search() {
   const [searchValue, setSearchValue] = useState("");
   const { friends } = useFriendList();
   const filteredList = friends?.filter((friend) =>
-    friend?.toLowerCase().includes(searchValue?.toLowerCase())
+    friend?.username.toLowerCase().includes(searchValue?.toLowerCase())
   );
 
   const handleChange = (e) => {

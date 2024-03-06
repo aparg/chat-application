@@ -3,9 +3,9 @@ import { createContext, useState } from "react";
 const ReceiverContext = createContext({});
 
 export const ReceiverProvider = ({ children }) => {
-  const [receiverName, setReceiverName] = useState("");
+  const [receiver, setReceiver] = useState("");
   return (
-    <ReceiverContext.Provider value={{ receiverName, setReceiverName }}>
+    <ReceiverContext.Provider value={{ receiver, setReceiver }}>
       {children}
     </ReceiverContext.Provider>
   );

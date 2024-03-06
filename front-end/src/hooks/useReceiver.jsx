@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import ReceiverContext from "../context/ReceiverContext";
 
-const useReceiverName = () => {
+const useReceiver = () => {
   return useContext(ReceiverContext);
 };
 
-export default useReceiverName;
+export default useReceiver;

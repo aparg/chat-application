@@ -6,10 +6,9 @@ import useFriendRequests from "../../../../hooks/useFriendRequests";
 import FriendRequestCard from "../../LeftPane/AddFriends/FriendRequestCard";
 export const AddFriendsSection = () => {
   const { friendRequests, setFriendRequests } = useFriendRequests();
-  const { suggestedFriends } = useSuggestedFriends();
+  // const { suggestedFriends } = useSuggestedFriends();
 
   const getFriendRequests = () => {
-    console.log("REFRESHING..");
     privateAxios
       .post("/showFriendRequests")
       .then((result) => {
@@ -22,7 +21,6 @@ export const AddFriendsSection = () => {
   };
   return (
     <div className="overflow-auto w-full h-full py-5 px-5">
-      {console.log(friendRequests)}
       {friendRequests.map((data) => (
         <FriendRequestCard
           username={data.username}
