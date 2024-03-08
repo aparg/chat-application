@@ -15,6 +15,7 @@ const addFriends = require("./routes/addFriends");
 const showFriendReq = require("./routes/showFriendReq");
 const manageFriendReq = require("./routes/manageFriendRequest");
 const editProfile = require("./routes/editProfile");
+const groups = require("./routes/group");
 //for jwt verification
 const { verifyToken } = require("./middlewares/jwtVerify");
 const rolesVerify = require("./middlewares/rolesVerify");
@@ -30,6 +31,7 @@ const PORT = process.env.PORT || 3500;
 const { Server } = require("socket.io");
 const sendMessageSocket = require("./socket/sendMessageSocket");
 const getMessageSocket = require("./socket/getMessageSocket");
+const getSpamMessageSocket = require("./socket/getSpamMessageSocket");
 const Users = require("./models/Users");
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
@@ -67,12 +69,14 @@ app.use("/logout", logout);
 app.use(verifyToken);
 app.use("/conversation", conversation);
 app.use("/message", message);
+
 // app.use("/allusers", allUsers);
 app.use("/editProfile", editProfile);
 app.use("/friends", friends);
 app.use("/addfriends", addFriends);
 app.use("/showFriendRequests", showFriendReq);
 app.use("/manageFriendRequest", manageFriendReq);
+app.use("/groups", groups);
 // app.use("/message", message);
 // app.use(rolesVerify(ROLES.Admin));
 //all the protected routes should be placed here...
@@ -87,7 +91,7 @@ mongoose.connection.once("open", () => {
     });
     socket.on("join room", ({ conversationId }) => {
       socket.rooms.forEach((value) => {
-        //leave other rooms except fo the room for conversation currently opened
+        //leave other rooms except for the room for conversation currently opened
         if (!value?.includes("user") && value !== socket.id) {
           socket.leave(value);
         }
@@ -96,6 +100,7 @@ mongoose.connection.once("open", () => {
     });
     getMessageSocket(socket, io);
     sendMessageSocket(socket, io);
+    getSpamMessageSocket(socket, io);
   });
 
   // app.listen(PORT, () =>  {});

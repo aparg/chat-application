@@ -8,6 +8,7 @@ import { ConversationProvider } from "../../context/ConversationContext";
 import { SuggestedFriendsProvider } from "../../context/SuggestedFriendsContext";
 import { ModeProvider } from "../../context/ModeContext";
 import { FriendRequestsProvider } from "../../context/FriendRequestsContext";
+import { FriendsProvider } from "../../context/FriendsContext";
 
 const MainPage = () => {
   const [isConnected, setIsConnected] = useState(socket.isConnected);
@@ -15,15 +16,17 @@ const MainPage = () => {
     <ReceiverProvider>
       <ConversationProvider>
         <SuggestedFriendsProvider>
-          <FriendRequestsProvider>
-            <ModeProvider>
-              <div className="w-screen h-screen p-5 flex flex-row w-10/12 justify-between">
-                <UserDetails />
-                <CenterBox />
-                <ChatDetails />
-              </div>
-            </ModeProvider>
-          </FriendRequestsProvider>
+          <FriendsProvider>
+            <FriendRequestsProvider>
+              <ModeProvider>
+                <div className="w-screen h-screen p-5 flex flex-row w-10/12 justify-between">
+                  <UserDetails />
+                  <CenterBox />
+                  <ChatDetails />
+                </div>
+              </ModeProvider>
+            </FriendRequestsProvider>
+          </FriendsProvider>
         </SuggestedFriendsProvider>
       </ConversationProvider>
     </ReceiverProvider>

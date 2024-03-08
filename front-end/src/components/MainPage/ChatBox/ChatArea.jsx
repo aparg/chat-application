@@ -17,12 +17,15 @@ export const ChatArea = () => {
     setMessages([]);
     setLoading(true);
     socket.emit("get message", { conversationId, sender: auth.name });
+  }, [conversationId]);
+  useEffect(() => {
     socket.on("message response", (data) => {
+      console.log(data);
       setMessages(data);
       setLoading(false);
     });
     return () => socket.off("message response");
-  }, [conversationId]);
+  }, []);
   useEffect(() => {
     const div = chatDivRef.current;
     div.scrollTo(0, div.scrollHeight);
@@ -48,6 +51,8 @@ export const ChatArea = () => {
                   content={data.content}
                   sender={false}
                   key={uuidv4()}
+                  group={true}
+                  writerName={data?.sender.username}
                 />
               );
             }

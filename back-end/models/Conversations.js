@@ -8,6 +8,14 @@ const conversationsSchema = new Schema({
       required: true,
     },
   ],
+  group: {
+    type: Boolean,
+    default: false,
+  },
+  name: {
+    type: String,
+    default: null,
+  },
 });
 
 module.exports = mongoose.model("Conversation", conversationsSchema);

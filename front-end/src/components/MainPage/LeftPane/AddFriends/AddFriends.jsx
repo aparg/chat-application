@@ -31,7 +31,7 @@ export const AddFriends = ({ expandable = true }) => {
     };
   }, []);
 
-  const getSuggestedFriends = () => {
+  const getSuggestedFriends = async () => {
     privateAxios
       .post("/friends/add")
       .then((result) => {
@@ -44,7 +44,6 @@ export const AddFriends = ({ expandable = true }) => {
   };
 
   const getFriendRequests = () => {
-    console.log("REFRESHING..");
     privateAxios
       .post("/showFriendRequests")
       .then((result) => {

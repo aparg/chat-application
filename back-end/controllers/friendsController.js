@@ -1,12 +1,11 @@
 const Message = require("../models/Messages");
 const Users = require("../models/Users");
-let friendsResponse = null;
 const getFriends = async (req, res) => {
-  if (!friendsResponse) {
-    friendsResponse = await Users.findOne({ username: req.user }).populate(
-      "friends"
-    );
-  }
+  const friendsResponse = await Users.findOne({
+    username: req.user,
+  }).populate("friends");
+
+  console.log("Friends Response");
   const namePhotoArray = friendsResponse.friends.map((friend) => {
     return { username: friend.username, profilePhoto: friend.profilePhoto };
   });
@@ -14,22 +13,26 @@ const getFriends = async (req, res) => {
 };
 
 const addFriends = async (req, res) => {
-  const response = await Users.find({});
-  if (!friendsResponse) {
-    friendsResponse = await Users.findOne({ username: req.user }).populate(
-      "friends"
-    );
-  }
+  const friendsResponse = await Users.findOne({ username: req.user });
+  const response = await Users.find({}).exec();
+  console.log("User requested" + req.user);
+  console.log(friendsResponse.friends.length);
   let suggestedFriends = [];
   for (let i = 0; i < response.length; i++) {
-    for (let j = 0; j < friendsResponse.friends.length; j++) {
-      if (friendsResponse.friends[j].username === response[i].username) {
-        break;
+    if (friendsResponse.friends.length == 0) {
+      suggestedFriends = [...response];
+    } else {
+      for (let j = 0; j < friendsResponse.friends.length; j++) {
+        if (
+          friendsResponse.friends[j].username !== response[i].username &&
+          !suggestedFriends.includes(response[i])
+        ) {
+          suggestedFriends.push(response[i]);
+        }
       }
-      if (j == friendsResponse.friends.length - 1)
-        suggestedFriends.push(response[i]);
     }
   }
+  console.log("suggested friends");
   const namePhotoArray = suggestedFriends.map((data) => {
     return { username: data.username, profilePhoto: data.profilePhoto };
   });

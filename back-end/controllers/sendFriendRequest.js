@@ -10,7 +10,7 @@ const sendFriendRequest = async (req, res) => {
     const requestSender = await Users.findOne(filter).exec();
     if (!requestReceiver.friendRequestList.includes(requestSender._id)) {
       requestReceiver.friendRequestList.push(requestSender._id);
-      requestReceiver.save();
+      await requestReceiver.save();
     }
     io.to(`user${requestReceiver._id}`).emit("friendRequest", requestSender);
     res.status(200).end();

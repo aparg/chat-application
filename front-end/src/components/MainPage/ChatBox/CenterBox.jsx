@@ -7,6 +7,7 @@ import { AddFriendsSection } from "./AddFriendsSection/AddFriendsSection";
 import useMode from "../../../hooks/useMode";
 import { MODES } from "../../../../constants/modes";
 import EditProfile from "../../Profile/EditProfile";
+import SpamArea from "../LeftPane/Spam/SpamArea";
 const CenterBox = () => {
   const { receiver } = useReceiver();
   const { mode } = useMode();
@@ -31,6 +32,13 @@ const CenterBox = () => {
       <>
         <ChatTitle titleValue="Edit Profile" icons={false} />
         <EditProfile />
+      </>
+    );
+  } else if (mode === MODES.spam) {
+    boxContent = (
+      <>
+        <ChatTitle titleValue={receiver.username} />
+        <SpamArea />
       </>
     );
   }

@@ -6,7 +6,7 @@ import { SecondaryButton } from "../../../Button/SecondaryButton";
 
 function FriendRequestCard({
   username,
-  refreshFriendList,
+  refreshFriendReqList,
   expanded = true,
   profilePhoto = null,
 }) {

@@ -16,7 +16,7 @@ const AddFriendCard = ({ username, profilePhoto }) => {
       }`}
     >
       <img
-        className="rounded-full w-1/6 basis-1/6"
+        className="rounded-full w-1/6 basis-1/6  clip-circle"
         src={profilePhoto || profileImg}
       ></img>
       {/* <div className="flex items-center justify-left "> */}

@@ -12,11 +12,22 @@ const findUserId = async (name) => {
   }
 };
 
-const createConversation = async (senderId, receiverId) => {
+const createConversation = async (
+  participantsArray,
+  group,
+  receiverName = null
+) => {
   try {
     console.log("Creating..");
+    console.log({
+      participants: participantsArray,
+      group,
+      name: receiverName,
+    });
     const conversation = await Conversation.create({
-      participants: [receiverId, senderId],
+      participants: participantsArray,
+      group,
+      name: receiverName,
     });
     return conversation?._id;
   } catch (err) {
@@ -26,23 +37,37 @@ const createConversation = async (senderId, receiverId) => {
 };
 
 const getConversationId = async (req, res) => {
-  const { receiverName } = req.body;
+  const { receiverName, group } = req.body;
   const { user } = req;
   try {
     console.log("Getting Conversation Id...");
     const senderId = await findUserId(user);
-    const receiverId = await findUserId(receiverName);
-    console.log(receiverId, senderId);
-    const conversation = await Conversation.findOne({
-      participants: { $all: [receiverId, senderId] },
-    }).exec();
-    //if converssation exists, return its id else create a new conversation and return the conversation's id
-    const conversationId = conversation?._id
-      ? conversation?._id
-      : await createConversation(senderId, receiverId);
-    res.json({ conversationId });
+    if (!group) {
+      const receiverId = await findUserId(receiverName);
+      // console.log(receiverId, senderId);
+      const conversation = await Conversation.findOne({
+        participants: { $all: [receiverId, senderId] },
+      }).exec();
+      //if converssation exists, return its id else create a new conversation and return the conversation's id
+      const conversationId = conversation?._id
+        ? conversation?._id
+        : await createConversation([senderId, receiverId], group);
+      console.log(conversationId);
+      res.json({ conversationId });
+    } else {
+      console.log("Creating group");
+      const conversation = await Conversation.findOne({
+        group: true,
+        name: receiverName,
+      }).exec();
+      const conversationId =
+        conversation?.id ||
+        (await createConversation([senderId], group, receiverName));
+      console.log(conversationId);
+      res.json({ conversationId });
+    }
   } catch (err) {
-    console.log(err);
+    console.log("Error while getting conversation id");
   }
 };
 

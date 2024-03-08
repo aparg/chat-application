@@ -19,6 +19,10 @@ const messageSchema = new Schema({
     ref: "User",
     required: true,
   },
+  spam: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model("Messsage", messageSchema);
