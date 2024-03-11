@@ -2,7 +2,6 @@ const Users = require("../models/Users");
 const sendRequest = async (req, res) => {
   try {
     const { username } = req.body; //sender username
-    console.log(username);
     const filter = { username: req.user };
     const requestReceiver = await Users.findOne(filter).exec();
     const requestSender = await Users.findOne({ username }).exec();

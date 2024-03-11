@@ -3,7 +3,7 @@ const Users = require("../models/Users");
 
 const findUserId = async (name) => {
   try {
-    const user = await Users.findOne({ username: name }).exec();
+    const user = await Users.findOne({ username: name }).select("_id").exec();
     const userId = user?._id;
     return userId;
   } catch (err) {
@@ -18,12 +18,6 @@ const createConversation = async (
   receiverName = null
 ) => {
   try {
-    console.log("Creating..");
-    console.log({
-      participants: participantsArray,
-      group,
-      name: receiverName,
-    });
     const conversation = await Conversation.create({
       participants: participantsArray,
       group,

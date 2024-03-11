@@ -2,19 +2,40 @@ const Users = require("../models/Users");
 const accept = async (req, res) => {
   try {
     const io = req.app.get("io");
-    const user = await Users.findOne({ username: req.user }).exec();
+    const friendReqReceiver = await Users.findOne({
+      username: req.user,
+    })
+      .populate("friendRequestList")
+      .select("friends friendRequestList")
+      .exec();
+
+    console.log(friendReqReceiver);
     const friendReqSender = await Users.findOne({
       username: req.body.username,
-    }).exec();
-    (!user || !friendReqSender) && res.status(404);
-    if (!user.friends.includes(friendReqSender._id)) {
-      user.friends.push(friendReqSender.id);
+    })
+      .populate("friendRequestList")
+      .select("friends friendRequestList")
+      .exec();
+    (!friendReqReceiver || !friendReqSender) && res.status(404);
+    //add to the friendlist of the receiver
+    if (!friendReqReceiver.friends.includes(friendReqSender._id)) {
+      friendReqReceiver.friends.push(friendReqSender._id);
     }
-    user.friendRequestList = user.friendRequestList.filter(
-      (val) => val.username !== req.body.username
-    );
-    await user.save();
-    io.to(`user${user._id}`).emit("refreshFriendList");
+    console.log(friendReqReceiver);
+    friendReqReceiver.friendRequestList =
+      friendReqReceiver.friendRequestList.filter(
+        (val) => val.username !== req.body.username
+      );
+    await friendReqReceiver.save();
+
+    //add to the friendlist of sender
+    if (!friendReqSender.friends.includes(friendReqReceiver._id)) {
+      friendReqSender.friends.push(friendReqReceiver._id);
+    }
+    await friendReqSender.save();
+    //referesh friend list once a friend request is accepted
+    io.to(`user${friendReqReceiver._id}`).emit("refreshFriendList");
+    io.to(`user${friendReqSender._id}`).emit("refreshFriendList");
     res.status(200);
     res.end();
   } catch (err) {
@@ -26,15 +47,15 @@ const accept = async (req, res) => {
 const decline = async (req, res) => {
   try {
     const io = req.app.get("io");
-    const user = await Users.findOne({ username: req.user }).populate(
-      "friendRequestList"
-    );
-    !user && res.status(404);
-    user.friendRequestList = user.friendRequestList.filter(
-      (val) => val.username !== req.body.username
-    );
-    await user.save();
-    io.to(`user${user._id}`).emit("refreshFriendList");
+    const friendReqReceiver = await Users.findOne({ username: req.user })
+      .populate("friendRequestList")
+      .select("friendRequestList");
+    !friendReqReceiver && res.status(404);
+    friendReqReceiver.friendRequestList =
+      friendReqReceiver.friendRequestList.filter(
+        (val) => val.username !== req.body.username
+      );
+    await friendReqReceiver.save();
     res.status(200);
     res.end();
   } catch (err) {

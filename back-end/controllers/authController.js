@@ -1,12 +1,3 @@
-// const usersDB = {
-//   users: require("../models/users.json"),
-//   setUsers: function (data) {
-//     this.users = data;
-//   },
-// };
-// const fsPromises = require("fs").promises;
-// const path = require("path");
-
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Users = require("../models/Users");
@@ -42,17 +33,6 @@ const checkUser = async (req, res) => {
     // save a refresh token for user who has got the access token so that they can use the refresh token to gain new access token after current access token has expired
 
     const filter = { username: name };
-    // const update = { refreshToken: refreshToken };
-    // await Users.findOneAndUpdate(filter, update).exec();
-    /* For file-based databse*/
-    // const otherUsers = usersDB.users.filter((user) => user.username !== name);
-    // const currentUser = { ...userFound, refreshToken };
-    // usersDB.setUsers([...otherUsers, currentUser]);
-    // await fsPromises.writeFile(
-    //   path.join(__dirname, "..", "models", "users.json"),
-    //   JSON.stringify(usersDB.users)
-    // );
-    //get profile picture
     const user = await Users.findOne(filter).exec();
     user.refreshToken = refreshToken;
     user.save();

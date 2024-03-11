@@ -10,15 +10,13 @@ const messageSocket = (socket, io) => {
     const cwd = path.join(__dirname, "../spamFilter");
     const python = spawn("python3", [scriptPath, content], { cwd: cwd });
     python.stdout.on("data", async (spam) => {
-      console.log(typeof spam.toString());
-      console.log(typeof "False");
-      console.log(spam.toString().includes("False"));
-      const senderId = await Users.findOne({ username: sender }).exec();
+      const senderData = await Users.findOne({ username: sender }).exec();
+      const spamValue = spam.toString().includes("False") ? false : true;
       await Messages.create({
         conversation: conversationId,
         content: content,
-        sender: senderId,
-        spam: spam.toString().includes("False") ? false : true,
+        sender: senderData._id,
+        spam: spamValue,
       });
       const messages = await Messages.find({
         conversation: conversationId,
@@ -27,9 +25,11 @@ const messageSocket = (socket, io) => {
         .populate("sender", "username")
         .exec();
       //emit changes to all participants in the room with same conversation id
-      if (messages.spam) {
-        io.to(`user${senderId}`).emit("message response", messages);
+      if (spamValue) {
+        console.log(`user${senderData._id} spammed`);
+        io.to(`user${senderData._id}`).emit("spam detected");
       } else {
+        console.log("not a spam");
         io.to(conversationId).emit("message response", messages);
       }
     });

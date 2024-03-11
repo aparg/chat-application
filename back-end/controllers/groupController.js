@@ -2,7 +2,7 @@ const Conversations = require("../models/Conversations");
 const Users = require("../models/Users");
 
 const getGroups = async (req, res) => {
-  const user = await Users.findOne({ username: req.user }).exec();
+  const user = await Users.findOne({ username: req.user }).select("_id").exec();
   const groups = await Conversations.find({
     participants: { $elemMatch: { $eq: user._id } },
     group: true,
@@ -16,7 +16,9 @@ const addMember = async (req, res) => {
     .exec();
   const addedConversation = await Conversations.findOne({
     name: req.body.groupName,
-  });
+  })
+    .select("participants")
+    .exec();
   !addedConversation.participants.includes(addedMember) &&
     addedConversation?.participants.push(addedMember);
   await addedConversation.save();
