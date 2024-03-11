@@ -2,6 +2,7 @@ import pandas as pd
 import re
 import pickle
 
+
 def train_bayes_model():
     message_spam = pd.read_csv('SMSSpamCollection', sep='\t',header=None, names=['Label', 'Message'])
     print(message_spam.shape)
@@ -143,6 +144,8 @@ def train_bayes_model():
         p_word_given_ham = (n_word_given_ham + alpha) / (n_ham + alpha*n_vocabulary)
         parameters_ham[word] = p_word_given_ham
     
+        
+    
         # Save parameters and models
     with open('model_1_parameters.pkl', 'wb') as f:
         pickle.dump((p_spam, p_ham, vocabulary, parameters_spam, parameters_ham), f)
@@ -169,8 +172,8 @@ def classify1(message):
         return False
     elif p_spam_given_message > p_ham_given_message:
         return True
-
-
+ 
+ 
 if __name__ == "__main__":
     train_bayes_model()
     classify1("testing")

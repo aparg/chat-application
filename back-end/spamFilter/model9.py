@@ -3,7 +3,7 @@ import re
 import pickle
 
 def train_bayes_model():
-    message_spam = pd.read_csv('SMSSpamCollection', sep='\t',header=None, names=['Label', 'Message'])
+    message_spam = pd.read_csv('abusive.csv', sep='\t',header=None, names=['Label', 'Message'])
     print(message_spam.shape)
     message_spam.head()
 

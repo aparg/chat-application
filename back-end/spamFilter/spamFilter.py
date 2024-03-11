@@ -26,6 +26,6 @@ def export_value(get_message):
         print(True)
     else: 
         print(False)
-        
+    
 export_value(sys.argv[1])
-sys.stdout.flush()
+sys.stdout.flush()   
