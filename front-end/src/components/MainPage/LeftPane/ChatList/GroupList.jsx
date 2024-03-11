@@ -6,18 +6,21 @@ import GroupCard from "./GroupCard";
 import useReceiver from "../../../../hooks/useReceiver";
 import { socket } from "../../../../socket/socket";
 import useConversationId from "../../../../hooks/useConversationId";
+import Loading from "../../../Loading/Loading";
 
 const GroupList = () => {
   const [popUp, setPopUp] = useState(null);
   const [groups, setGroups] = useState([]);
-  const { receiver, setReceiver } = useReceiver();
+  const [loading, setLoading] = useState(false);
   const { setConversationId } = useConversationId();
   const privateAxios = usePrivateAxios();
   useEffect(() => {
     getGroups();
   }, []);
   const getGroups = async () => {
+    setLoading(true);
     const response = await privateAxios.post("/groups/get");
+    setLoading(false);
     const groupsResponse = response?.data;
     setGroups(groupsResponse);
   };
@@ -43,19 +46,28 @@ const GroupList = () => {
     }
   };
   return (
-    <div className="relative flex flex-col w-full h-full items-center">
-      {popUp && <CreateGroup joinRoom={(val) => roomJoin(val)} />}
-      {groups.map((data) => {
-        return (
-          <GroupCard groupname={data.name} joinRoom={(val) => roomJoin(val)} />
-        );
-      })}
-      <img
-        className="absolute bottom-0 cursor-pointer w-1/12"
-        onClick={() => setPopUp(!popUp)}
-        src={addIcon}
-      ></img>
-    </div>
+    <>
+      {loading ? (
+        <div className="relative flex flex-col w-full h-full items-center">
+          {popUp && <CreateGroup joinRoom={(val) => roomJoin(val)} />}
+          {groups.map((data) => {
+            return (
+              <GroupCard
+                groupname={data.name}
+                joinRoom={(val) => roomJoin(val)}
+              />
+            );
+          })}
+          <img
+            className="absolute bottom-0 cursor-pointer w-1/12"
+            onClick={() => setPopUp(!popUp)}
+            src={addIcon}
+          ></img>
+        </div>
+      ) : (
+        <Loading />
+      )}
+    </>
   );
 };
 

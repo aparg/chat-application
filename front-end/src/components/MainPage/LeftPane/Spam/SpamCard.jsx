@@ -23,7 +23,7 @@ const SpamCard = ({ username, profilePhoto }) => {
         ></img>
         <div className="flex flex-col mx-3">
           <div className="text-black font-bold text-2xl md:text-sm">
-            {username}
+            {username}[Spam]
           </div>
           <div className="text-brown-text text-dark-gray md:text-xs">Seen</div>
         </div>

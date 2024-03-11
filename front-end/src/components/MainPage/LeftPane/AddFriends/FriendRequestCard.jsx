@@ -6,19 +6,19 @@ import { SecondaryButton } from "../../../Button/SecondaryButton";
 
 function FriendRequestCard({
   username,
-  refreshFriendReqList,
+  removeCard,
   expanded = true,
   profilePhoto = null,
 }) {
   const privateAxios = usePrivateAxios();
   const acceptReq = async () => {
     await privateAxios.post("manageFriendRequest/accept", { username });
-    refreshFriendReqList();
+    removeCard();
   };
 
   const declineReq = async () => {
     await privateAxios.post("/manageFriendRequest/decline", { username });
-    refreshFriendList();
+    removeCard();
   };
 
   return (

@@ -24,7 +24,6 @@ const UserCard = ({ username, profilePhoto }) => {
         <div className="text-black font-bold text-2xl md:text-sm">
           {username}
         </div>
-        <div className="text-brown-text text-dark-gray md:text-xs">Seen</div>
       </div>
     </div>
   );

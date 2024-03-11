@@ -13,16 +13,16 @@ const ChatDetails = () => {
   return mode === MODES.chat || mode === MODES.spam ? (
     <section className="flex flex-col w-3/12 h-full text-black">
       <section className="flex flex-col h-full">
-        {receiver.username && (
+        {receiver?.username && (
           <img
-            src={receiver.profilePhoto || profileImg}
+            src={receiver?.profilePhoto || profileImg}
             className="rounded-full border-dark-brown border-2 shadow-gray flex-none w-4/12 mt-10 self-center clip-circle"
           ></img>
         )}
         <span className="text-black md:text-2xl font-bold text-md my-5 self-center">
-          {receiver.username}
+          {receiver?.username}
         </span>
-        {receiver.group && <SearchMembers />}
+        {receiver?.group && <SearchMembers />}
         {/*line*/}
         <span className="bg-dark-gray h-0.5 w-full my-5"></span>
         {/* <span className="font-bold">Shared media</span> */}

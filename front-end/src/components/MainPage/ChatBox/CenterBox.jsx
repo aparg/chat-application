@@ -8,17 +8,20 @@ import useMode from "../../../hooks/useMode";
 import { MODES } from "../../../../constants/modes";
 import EditProfile from "../../Profile/EditProfile";
 import SpamArea from "../LeftPane/Spam/SpamArea";
+import EmptyChat from "../../EmptyChat/EmptyChat";
 const CenterBox = () => {
   const { receiver } = useReceiver();
   const { mode } = useMode();
   let boxContent = <></>;
   if (mode === MODES.chat) {
-    boxContent = (
+    boxContent = receiver ? (
       <>
-        <ChatTitle titleValue={receiver.username} />
+        <ChatTitle titleValue={receiver?.username} />
         <ChatArea />
         <ChatTextArea />
       </>
+    ) : (
+      <EmptyChat />
     );
   } else if (mode === MODES.addFriends) {
     boxContent = (
@@ -35,11 +38,13 @@ const CenterBox = () => {
       </>
     );
   } else if (mode === MODES.spam) {
-    boxContent = (
+    boxContent = receiver ? (
       <>
-        <ChatTitle titleValue={receiver.username} />
+        <ChatTitle titleValue={receiver?.username} />
         <SpamArea />
       </>
+    ) : (
+      <EmptyChat />
     );
   }
   return <Layout>{boxContent}</Layout>;

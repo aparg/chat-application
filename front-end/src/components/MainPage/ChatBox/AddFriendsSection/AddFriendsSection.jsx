@@ -19,13 +19,21 @@ export const AddFriendsSection = () => {
         console.log(err);
       });
   };
+
+  const removeFriendRequest = (username) => {
+    const filteredFriendRequests = friendRequests.filter((friendReq) => {
+      friendReq.username !== username;
+    });
+    setFriendRequests(filteredFriendRequests);
+  };
+
   return (
     <div className="overflow-auto w-full h-full py-5 px-5">
       {friendRequests.map((data) => (
         <FriendRequestCard
           username={data.username}
           profilePhoto={data.profilePhoto}
-          refreshFriendList={getFriendRequests}
+          removeCard={() => removeFriendRequest(data.username)}
           key={uuidv4()}
         />
       ))}

@@ -8,15 +8,18 @@ import UserCard from "../UserCard";
 import useFriendList from "../../../../hooks/useFriendList";
 import Loading from "../../../Loading/Loading";
 import { socket } from "../../../../socket/socket";
+import useReceiver from "../../../../hooks/useReceiver";
 
 export const FriendList = () => {
   const { friends, setFriends } = useFriendList();
   const { auth } = useAuth();
   const [loading, setLoading] = useState(false);
+  const { setReceiver } = useReceiver();
   const axiosPrivate = usePrivateAxios();
   useEffect(() => {
     socket.on("refreshFriendList", () => getUsers());
-    getUsers();
+    friends.length === 0 && getUsers();
+    setReceiver(null);
     return () => {
       socket.off("refreshFriendList");
     };

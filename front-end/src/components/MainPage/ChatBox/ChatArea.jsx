@@ -20,7 +20,6 @@ export const ChatArea = () => {
   }, [conversationId]);
   useEffect(() => {
     socket.on("message response", (data) => {
-      console.log(data);
       setMessages(data);
       setLoading(false);
     });

@@ -18,6 +18,13 @@ function FriendRequests() {
     };
   }, []);
 
+  const removeFriendRequest = (username) => {
+    const filteredFriendRequests = friendRequests.filter((friendReq) => {
+      friendReq.username !== username;
+    });
+    setFriendRequests(filteredFriendRequests);
+  };
+
   const getFriendList = () => {
     privateAxios
       .post("/showFriendRequests")
@@ -33,7 +40,7 @@ function FriendRequests() {
     <FriendRequestCard
       username={friendRequest.username}
       profilePhoto={friendRequest.profilePhoto}
-      refreshFriendReqList={getFriendList}
+      removeCard={() => removeFriendRequest(friendRequest.username)}
       key={uuidv4()}
     />
   ));

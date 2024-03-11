@@ -55,6 +55,13 @@ export const AddFriends = ({ expandable = true }) => {
       });
   };
 
+  const removeFriendRequest = (username) => {
+    const filteredFriendRequests = friendRequests.filter((friendReq) => {
+      friendReq.username !== username;
+    });
+    setFriendRequests(filteredFriendRequests);
+  };
+
   return (
     <>
       {!loading ? (
@@ -79,12 +86,15 @@ export const AddFriends = ({ expandable = true }) => {
             <FriendRequestCard
               username={friendRequests[0].username}
               profilePhoto={friendRequests[0].profilePhoto}
-              refreshFriendList={getFriendRequests}
+              removeCard={() => removeFriendRequest(friendRequests[0].username)}
               expanded={false}
             />
           ) : (
             suggestedFriends.length !== 0 && (
-              <AddFriendCard username={suggestedFriends[0].username} />
+              <AddFriendCard
+                username={suggestedFriends[0].username}
+                profilePhoto={suggestedFriends[0].profilePhoto}
+              />
             )
           )}
         </div>

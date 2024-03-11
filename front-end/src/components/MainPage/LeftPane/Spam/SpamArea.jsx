@@ -19,6 +19,7 @@ const SpamArea = () => {
     setLoading(true);
     socket.emit("get spam message", { conversationId, sender: auth.name });
     socket.on("message spam response", (data) => {
+      console.log(data);
       setMessages(data);
       setLoading(false);
     });
@@ -28,10 +29,11 @@ const SpamArea = () => {
     const div = chatDivRef.current;
     div.scrollTo(0, div.scrollHeight);
   });
-  useJoinRoom();
+
   return (
     <>
       <CenterBox ref={chatDivRef}>
+        {console.log(messages)}
         {!loading ? (
           messages.map((data) => {
             const senderName = data?.sender?.username;

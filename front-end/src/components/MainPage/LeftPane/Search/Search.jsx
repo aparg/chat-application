@@ -5,8 +5,10 @@ import useFriendList from "../../../../hooks/useFriendList";
 function Search() {
   const [searchValue, setSearchValue] = useState("");
   const { friends } = useFriendList();
-  const filteredList = friends?.filter((friend) =>
-    friend?.username.toLowerCase().includes(searchValue?.toLowerCase())
+  const filteredList = friends?.filter(
+    (friend) =>
+      friend?.username.toLowerCase().includes(searchValue?.toLowerCase()) &&
+      console.log(friend?.username)
   );
 
   const handleChange = (e) => {

@@ -4,6 +4,7 @@ import usePrivateAxios from "../../../../hooks/usePrivateAxios";
 import PrimaryButton from "../../../Button/PrimaryButton";
 const AddFriendCard = ({ username, profilePhoto }) => {
   const [requestSent, setRequestSent] = useState(false);
+  const [interacted, setInteracted] = useState(false);
   const privateAxios = usePrivateAxios();
   const sendRequest = async () => {
     await privateAxios
@@ -13,7 +14,7 @@ const AddFriendCard = ({ username, profilePhoto }) => {
   return (
     <div
       className={`flex items-center my-1.5 w-full rounded-xl p-10 md:p-2 h-20 hover:cursor-pointer justify-center bg-light-cream
-      }`}
+      `}
     >
       <img
         className="rounded-full w-1/6 basis-1/6  clip-circle"
